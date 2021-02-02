@@ -1,0 +1,40 @@
+{
+  "default": {
+    "Admin": {
+      "kick": false,
+      "ban": false,
+      "unban": false,
+      "delete": false,
+      "Bot": {
+        "kill": false,
+        "restart": false
+      }
+    },
+    "User": {
+      "Perms": {
+        "seeOther": false,
+        "seeOwn": true,
+        "set": false
+      }
+    }
+  },
+  "546320163276849162": {
+    "Admin": {
+      "kick": true,
+      "ban": true,
+      "unban": true,
+      "delete": true,
+      "Bot": {
+        "kill": true,
+        "restart": true
+      }
+    },
+    "User": {
+      "Perms": {
+        "seeOther": true,
+        "seeOwn": true,
+        "set": true
+      }
+    }
+  }
+}
