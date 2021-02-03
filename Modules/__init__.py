@@ -3,8 +3,6 @@ import importlib
 import Utils
 
 
-required = ["__main__", "EVENTS", "HELP"]
-
 MODULES = [module.replace(".py", "") for module in listdir("./Modules") if module.endswith(".py") and not module == "__init__.py"]
 libs = {}
 
