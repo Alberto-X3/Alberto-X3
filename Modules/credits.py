@@ -15,4 +15,5 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
     await message.channel.send(embed=discord.Embed(description=f"""
 The Author is {author}
 Modular Code: [here](https://github.com/AlbertUnruh/ModularDiscordPyBot)
+My Code: [here](https://github.com/AlbertUnruh/Alberto-X3)
 """))
