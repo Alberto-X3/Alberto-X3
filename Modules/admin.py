@@ -9,7 +9,7 @@ Prefix = DATA.CONSTANTS.Prefix
 author = DATA.Author
 author_id = DATA.Author_id
 
-HELP = Utils.Help(f"vanish")
+HELP = Utils.Help(vanish=True)
 EVENTS = [Utils.EVENT.on_message]
 
 
