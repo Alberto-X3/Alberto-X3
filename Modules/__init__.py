@@ -22,4 +22,4 @@ for lib in MODULES.copy():
         continue
 
     if not hasattr(libs[lib], "HELP"):
-        libs[lib] = Utils.Help("*Please contact the developer to add a help for this!*")
+        libs[lib].HELP = Utils.Help("*Please contact the developer to add a help for this!*")
