@@ -16,9 +16,12 @@ for lib in MODULES.copy():
     if not hasattr(libs[lib], "__main__"):
         del libs[lib]
         MODULES.remove(lib)
+        continue
 
     if not hasattr(libs[lib], "EVENTS"):
-        libs[lib] = []
+        del libs[lib]
+        MODULES.remove(lib)
+        continue
 
     if not hasattr(libs[lib], "HELP"):
         if Utils.EVENT.on_message in libs[lib].EVENTS:
