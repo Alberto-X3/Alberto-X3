@@ -14,6 +14,10 @@ TOKEN = CONFIGS.CONSTANTS.Token
 Prefix = CONFIGS.CONSTANTS.Prefix
 
 
+exceptions = True
+# docs coming soon...
+
+
 '''
 You can see all the events in the following URL:
 https://discordpy.readthedocs.io/en/latest/api.html#event-reference
@@ -91,18 +95,18 @@ async def on_shard_resumed(shard_id: int):
 
             await Modules.libs[module].__main__(client, Utils.EVENT.on_shard_resumed, shard_id)
 
+if exceptions:
+    @client.event
+    async def on_error(event: str, *args, **kwargs):
+        print("ERROR BY DC!!!")
+        print(f"{event=}")
+        print(f"{args=}")
+        print(f"{kwargs=}")
 
-@client.event
-async def on_error(event: str, *args, **kwargs):
-    print("ERROR BY DC!!!")
-    print(f"{event=}")
-    print(f"{args=}")
-    print(f"{kwargs=}")
+        for module in Modules.MODULES:
+            if Utils.EVENT.on_error in Modules.libs[module].EVENTS:
 
-    for module in Modules.MODULES:
-        if Utils.EVENT.on_error in Modules.libs[module].EVENTS:
-
-            await Modules.libs[module].__main__(client, Utils.EVENT.on_error, event, *args, **kwargs)
+                await Modules.libs[module].__main__(client, Utils.EVENT.on_error, event, *args, **kwargs)
 
 
 @client.event
