@@ -95,7 +95,7 @@ async def on_shard_resumed(shard_id: int):
 
             await Modules.libs[module].__main__(client, Utils.EVENT.on_shard_resumed, shard_id)
 
-if exceptions:
+if not exceptions:
     @client.event
     async def on_error(event: str, *args, **kwargs):
         print("ERROR BY DC!!!")
