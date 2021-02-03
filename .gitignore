@@ -1,5 +1,3 @@
 .idea
-default-perms.json
-perms.json
-Configs.json
-_.log
+*.json
+*.log
