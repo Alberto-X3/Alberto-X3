@@ -25,4 +25,4 @@ for lib in MODULES.copy():
 
     if not hasattr(libs[lib], "HELP"):
         if Utils.EVENT.on_message in libs[lib].EVENTS:
-            libs[lib] = Utils.Help(vanish=True)
+            libs[lib] = Utils.Help("*Please contact the developer to add a help for this!*")

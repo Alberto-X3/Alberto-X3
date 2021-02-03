@@ -16,7 +16,7 @@ EVENTS = [Utils.EVENT.on_message]
 async def __main__(client: discord.Client, _event: int, message: discord.Message):
 
     if message.author.id == author_id:
-        if len(message.content.split(" ")) == 1:
+        if len(message.content.split()) == 1:
             await message.author.send("""
 Possible:
 
@@ -26,13 +26,13 @@ Possible:
 > _system_
 """)
 
-        elif message.content.split(" ")[1] == "update":
+        elif message.content.split()[1] == "update":
             await update(message)
 
-        elif message.content.split(" ")[1] == "get":
+        elif message.content.split()[1] == "get":
             await get(message)
 
-        elif message.content.split(" ")[1] == "system":
+        elif message.content.split()[1] == "system":
             await system(message)
 
         else:
@@ -45,7 +45,7 @@ Possible:
 async def update(message: discord.Message):
     if message.attachments:
 
-        if message.content.split(" ")[-1] == "-root":
+        if message.content.split()[-1] == "-root":
             path = ""
         else:
             path = "Modules/"
@@ -58,9 +58,9 @@ async def update(message: discord.Message):
 
 
 async def get(message: discord.Message):
-    if len(message.content.split(" ")) == 3 or len(message.content.split(" ")) == 4:
+    if len(message.content.split()) == 3 or len(message.content.split()) == 4:
 
-        if message.content.split(" ")[-1] == "-root":
+        if message.content.split()[-1] == "-root":
             path = ""
         else:
             path = "Modules/"

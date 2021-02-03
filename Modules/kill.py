@@ -1,7 +1,5 @@
 import discord
 import Utils
-import os
-import platform
 
 from json import load
 
@@ -19,10 +17,7 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
         await author.send(f"**__starting kill by {message.author}__**")
         await client.close()
 
-        if platform.system() == "Windows":
-            os.system("timeout /t -1")
-        elif platform.system() == "Linux":
-            os.system("read -p \"Press [Enter]\" to restart the Bot")
+        input("Press <ENTER>...")
 
     else:
         await message.channel.send(":x: requires Admin.Bot.kill")

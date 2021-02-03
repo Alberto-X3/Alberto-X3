@@ -4,7 +4,7 @@ import Utils
 from datetime import timedelta
 
 
-HELP = Utils.Help("vanish")
+HELP = Utils.Help(order_1793=True)
 EVENTS = [Utils.EVENT.on_message]
 
 

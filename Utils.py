@@ -74,9 +74,19 @@ EVENT = AttrDict({
 
 
 class Help(object):
-    def __init__(self, _help: Optional[str] = None, vanish: bool = None):
+    def __init__(self, _help: Optional[str] = None, vanish: bool = False, order_1793: bool = False):
+        """
+        _help: :class:`str`
+            is the printed value of the help
+        vanish: :class:`bool`
+            makes it invisible
+        order_1793: :class:`bool`
+            activates it every time when a message without the prefix was send
+        """
+
         self.help = _help
         self.vanish = vanish
+        self.order_1793 = order_1793
 
     def __str__(self):
         return self.help if self.supports() else "There is no help set!"

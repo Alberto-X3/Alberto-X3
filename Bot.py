@@ -7,8 +7,6 @@ import discord
 import Modules
 import Utils
 
-__version__ = "1.0.0"
-
 
 client = discord.Client()
 CONFIGS = AttrDict(load(open("Configs.json")))
@@ -162,8 +160,9 @@ async def on_message(message: discord.Message):
         await message.channel.send(f"My Prefix is `{Prefix}`.")
 
     else:
-        if "antispam" in list(Modules.libs.keys()):
-            await Modules.libs["antispam"].__main__(client, Utils.EVENT.on_message, message)
+        for module in Modules.MODULES:
+            if Modules.libs[module].HELP.order_1793:
+                await Modules.libs[module].__main__(client, Utils.EVENT.on_message, message)
 
 
 @client.event

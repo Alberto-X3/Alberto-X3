@@ -16,10 +16,10 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
     DATA = Utils.AttrDict(load(open("Configs.json")))
 
     if user_perms.Admin.ban:
-        if len(message.content.split(" ")) >= 2:
-            if message.content.split(" ")[1].isnumeric():
-                if len(message.content.split(" ")) > 2:
-                    reason = " ".join(message.content.split(" ")[2:])
+        if len(message.content.split()) >= 2:
+            if message.content.split()[1].isnumeric():
+                if len(message.content.split()) > 2:
+                    reason = message.content.split(maxsplit=2)[2]
                 else:
                     reason = "No reason..."
 
