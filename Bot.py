@@ -15,7 +15,12 @@ Prefix = CONFIGS.CONSTANTS.Prefix
 
 
 exceptions = True
-# docs coming soon...
+# this boolean tells you, if your code will actually throw a error (what isn't so mad...) or
+# that you get the errors in your cmd (this is my favorite, because you know exactly what for
+# a error it exactly is (and where you can find it in your code))
+#
+# `True` the normal errors in the cmd (standard)
+# `False` just a feedback, in what for a event a error was raised
 
 
 '''
