@@ -21,5 +21,9 @@ for lib in MODULES.copy():
         MODULES.remove(lib)
         continue
 
+    if not hasattr(libs[lib], "ALIASES"):
+        libs[lib].ALIASES = []
+
     if not hasattr(libs[lib], "HELP"):
-        libs[lib].HELP = Utils.Help("*Please contact the developer to add a help for this!*")
+        libs[lib].HELP = Utils.Help(_help="*Please contact the developer to add a help for this!*",
+                                    direct_help="*Please contact the developer to add a help for this!")

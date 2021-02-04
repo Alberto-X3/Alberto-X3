@@ -3,8 +3,9 @@ import Utils
 from NewClass import AttrDict
 from json import load
 
-HELP = Utils.Help("displays the credits")
+HELP = Utils.Help("displays the credits", "here are the credits with the code...")
 EVENTS = [Utils.EVENT.on_message]
+ALIASES = ["c"]
 
 
 async def __main__(client: discord.Client, _event: int, message: discord.Message):

@@ -74,10 +74,12 @@ EVENT = AttrDict({
 
 
 class Help(object):
-    def __init__(self, _help: Optional[str] = None, vanish: bool = False, order_1793: bool = False):
+    def __init__(self, _help: Optional[str] = None, direct_help: Optional[str] = None, vanish: bool = False, order_1793: bool = False):
         """
         _help: :class:`str`
             is the printed value of the help
+        direct_help: :class:`str`
+            is the printed value of the help when this function is called
         vanish: :class:`bool`
             makes it invisible
         order_1793: :class:`bool`
@@ -85,6 +87,7 @@ class Help(object):
         """
 
         self.help = _help
+        self.direct_help = direct_help
         self.vanish = vanish
         self.order_1793 = order_1793
 

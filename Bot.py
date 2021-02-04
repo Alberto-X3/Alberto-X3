@@ -100,6 +100,7 @@ async def on_shard_resumed(shard_id: int):
 
             await Modules.libs[module].__main__(client, Utils.EVENT.on_shard_resumed, shard_id)
 
+
 if not exceptions:
     @client.event
     async def on_error(event: str, *args, **kwargs):
@@ -145,25 +146,64 @@ async def on_typing(channel: discord.abc.Messageable, user: Union[discord.User, 
 async def on_message(message: discord.Message):
 
     if message.content.startswith(Prefix):
-        if message.content.split(" ")[0] == f"{Prefix}help":
+        if message.content.split()[0] == f"{Prefix}help":
 
             embed = discord.Embed()
-            embed.title = "**__help__**"
             embed.set_footer(text=f"requested by {message.author}", icon_url=message.author.avatar_url)
+            _module = ""
 
-            for module in Modules.MODULES:
-                if Utils.EVENT.on_message in Modules.libs[module].EVENTS:
-                    if not Modules.libs[module].HELP.vanish:
-                        embed.add_field(name=f"_{Prefix}{module}_", value=f"{Modules.libs[module].HELP}\n\n")
+            if len(message.content.split()) == 2:
+                found = False
+                for module in Modules.MODULES:
+                    if message.content.split()[1] == module:
+                        found = True
+                        _module = module
+                        break
+                    else:
+                        for alias in Modules.libs[module].ALIASES:
+                            if message.content.split()[1] == alias:
+                                found = True
+                                _module = module
+                                break
+                        if found:
+                            break
+
+                if not found:
+                    embed.title = "**__:x: invalid cmd__**"
+                    embed.add_field(name="", value=f"`{message.content.split()[1]}` isn't a cmd...")
+
+                else:
+                    embed.title = f"**__help: {message.content.split()[1]}__**"
+                    embed.add_field(name=_module, value=f"""
+Aliases: {Modules.libs[_module].ALIASES}
+--------
+{Modules.libs[_module].HELP.direct_help}
+""")
+
+            else:
+                embed.title = "**__help__**"
+
+                for module in Modules.MODULES:
+                    if Utils.EVENT.on_message in Modules.libs[module].EVENTS:
+                        if not Modules.libs[module].HELP.vanish:
+                            _ = ""
+                            for alias in Modules.libs[module].ALIASES:
+                                _ += f"  **|** _{Prefix}{alias}_"
+                            embed.add_field(name=f"_{Prefix}{module}_{_}", value=f"{Modules.libs[module].HELP}\n\n")
 
             await message.channel.send(embed=embed)
 
         else:
             for module in Modules.MODULES:
                 if Utils.EVENT.on_message in Modules.libs[module].EVENTS:
-                    if message.content.split(" ")[0] == f"{Prefix}{module}":
-
+                    if message.content.split()[0] == f"{Prefix}{module}":
                         await Modules.libs[module].__main__(client, Utils.EVENT.on_message, message)
+
+                    else:
+                        for alias in Modules.libs[module].ALIASES:
+                            if message.content.split()[0] == f"{Prefix}{alias}":
+                                await Modules.libs[module].__main__(client, Utils.EVENT.on_message, message)
+                                break
 
     elif message.content.replace("!", "") == client.user.mention:
         await message.channel.send(f"My Prefix is `{Prefix}`.")
