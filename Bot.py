@@ -176,7 +176,7 @@ async def on_message(message: discord.Message):
                     embed.title = f"**__help: {message.content.split()[1]}__**"
                     embed.add_field(name=_module, value=f"""
 Aliases: {Modules.libs[_module].ALIASES}
---------
+~~--------~~
 {Modules.libs[_module].HELP.direct_help}
 """)
 
