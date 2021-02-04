@@ -9,7 +9,7 @@ libs = {}
 
 for lib in MODULES.copy():
 
-    libs[lib] = importlib.import_module(f"Modules.{lib}", "Modules")
+    libs[lib] = importlib.import_module(f"Modules.{lib}")
 
     if not hasattr(libs[lib], "__main__"):
         del libs[lib]
