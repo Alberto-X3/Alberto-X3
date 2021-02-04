@@ -6,7 +6,22 @@ from json import load
 DATA = Utils.AttrDict(load(open("Configs.json")))
 Prefix = DATA.CONSTANTS.Prefix
 
-HELP = Utils.Help(f"shows you your permissions\n_{Prefix}perms help_")
+HELP = Utils.Help(f"shows you your permissions", f"""
+> *{Prefix}perms*
+shows you your perms
+
+> *{Prefix}perms help*
+shows you this
+
+> *{Prefix}perms [USER-ID|USER-MENTION]*
+shows you perms from other
+
+> *{Prefix}perms [add|+] [USER-ID|USER-MENTION] [PERMISSION]*
+adds permissions for a user
+
+> *{Prefix}perms [remove|-] [USER-ID|USER-MENTION] [PERMISSION]*
+removes permissions from a user
+""")
 EVENTS = [Utils.EVENT.on_message]
 ALIASES = ["p"]
 
@@ -17,11 +32,8 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
 
     # not 'seeOwn'
     if len(message.content.split()) > 1:
-        # help
-        if message.content.split()[1] == "help":
-            await _help(message)
 
-        elif message.content.split()[1].replace("<", "").replace("@", "").replace("!", "").replace(">", "").isnumeric():
+        if message.content.split()[1].replace("<", "").replace("@", "").replace("!", "").replace(">", "").isnumeric():
 
             # 'seeOther'
             if len(message.content.split()) == 2:
@@ -65,30 +77,6 @@ def finder(data: Utils.AttrDict, path="") -> list:
         else:
             found += [f"{path}{'.' if path else ''}{key}"] if data[key] else []
     return found
-
-
-async def _help(message: discord.Message):
-
-    embed = discord.Embed(title="__perms help__")
-    msg = f"""
-> *{Prefix}perms*
-shows you your perms
-
-> *{Prefix}perms help*
-shows you this
-
-> *{Prefix}perms [USER-ID|USER-MENTION]*
-shows you perms from other
-
-> *{Prefix}perms [add|+] [USER-ID|USER-MENTION] [PERMISSION]*
-adds permissions for a user
-
-> *{Prefix}perms [remove|-] [USER-ID|USER-MENTION] [PERMISSION]*
-removes permissions from a user
-"""
-    embed.description = msg
-
-    await message.channel.send(embed=embed)
 
 
 async def perms(message: discord.Message, _id: str, user_perms: Utils.AttrDict):
