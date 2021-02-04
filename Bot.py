@@ -181,7 +181,7 @@ Aliases: {Modules.libs[_module].ALIASES}
 """)
 
             else:
-                embed.title = "**__help__**"
+                embed.title = "**__help | h__**"
                 embed.add_field(name="better help:", value=f"> {Prefix}help NAME", inline=False)
 
                 for module in Modules.MODULES:
