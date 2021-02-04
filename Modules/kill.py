@@ -6,6 +6,7 @@ from json import load
 
 HELP = Utils.Help("requires Admin.Bot.kill\n~~kills the Bot...~~ really dangerous")
 EVENTS = [Utils.EVENT.on_message]
+ALIASES = ["most-dangerous-cmd"]
 
 
 async def __main__(client: discord.Client, _event: int, message: discord.Message):

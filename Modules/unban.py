@@ -8,6 +8,7 @@ Prefix = Utils.AttrDict(load(open("Configs.json"))).CONSTANTS.Prefix
 
 HELP = Utils.Help(f"requires Admin.Bot.unban\n_{Prefix}unban iD (reason)_")
 EVENTS = [Utils.EVENT.on_message]
+ALIASES = []
 
 
 async def __main__(client: discord.Client, _event: int, message: discord.Message):

@@ -6,6 +6,7 @@ from json import load
 
 HELP = Utils.Help("requires Admin.Bot.restart")
 EVENTS = [Utils.EVENT.on_message]
+ALIASES = ["re"]
 
 
 async def __main__(client: discord.Client, _event: int, message: discord.Message):

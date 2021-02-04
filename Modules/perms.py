@@ -8,6 +8,7 @@ Prefix = DATA.CONSTANTS.Prefix
 
 HELP = Utils.Help(f"shows you your permissions\n_{Prefix}perms help_")
 EVENTS = [Utils.EVENT.on_message]
+ALIASES = ["p"]
 
 
 async def __main__(client: discord.Client, _event: int, message: discord.Message):
