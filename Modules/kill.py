@@ -4,7 +4,7 @@ import Utils
 from json import load
 
 
-HELP = Utils.Help("requires Admin.Bot.kill\n~~kills the Bot...~~ really dangerous")
+HELP = Utils.Help("requires Admin.Bot.kill\n~~kills the Bot...~~ really dangerous", "is very dangerous... so be careful with it")
 EVENTS = [Utils.EVENT.on_message]
 ALIASES = ["most-dangerous-cmd"]
 
