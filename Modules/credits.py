@@ -1,5 +1,6 @@
 import discord
 import Utils
+
 from NewClass import AttrDict
 from json import load
 

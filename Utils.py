@@ -2,6 +2,7 @@ import discord
 
 from typing import *
 from NewClass import AttrDict
+from json import load
 
 
 '''
@@ -71,6 +72,10 @@ EVENT = AttrDict({
     "on_relationship_remove":          58,  # argument(s) --> client: discord.Client, _event: int, relationship: discord.Relationship
     "on_relationship_update":          59,  # argument(s) --> client: discord.Client, _event: int, before: discord.Relationship, after: discord.Relationship
 })
+
+
+DATA = AttrDict(load(open("Configs.json")))
+Prefix = DATA.CONSTANTS.Prefix
 
 
 class Help(object):

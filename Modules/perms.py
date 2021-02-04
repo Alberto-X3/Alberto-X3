@@ -1,22 +1,18 @@
 import discord
 import Utils
 
-from json import load
-
-DATA = Utils.AttrDict(load(open("Configs.json")))
-Prefix = DATA.CONSTANTS.Prefix
 
 HELP = Utils.Help(f"shows you your permissions", f"""
-> *{Prefix}perms*
+> *{Utils.Prefix}perms*
 shows you your perms
 
-> *{Prefix}perms [USER-ID|USER-MENTION]*
+> *{Utils.Prefix}perms [USER-ID|USER-MENTION]*
 shows you perms from other
 
-> *{Prefix}perms [add|+] [USER-ID|USER-MENTION] [PERMISSION]*
+> *{Utils.Prefix}perms [add|+] [USER-ID|USER-MENTION] [PERMISSION]*
 adds permissions for a user
 
-> *{Prefix}perms [remove|-] [USER-ID|USER-MENTION] [PERMISSION]*
+> *{Utils.Prefix}perms [remove|-] [USER-ID|USER-MENTION] [PERMISSION]*
 removes permissions from a user
 """)
 EVENTS = [Utils.EVENT.on_message]

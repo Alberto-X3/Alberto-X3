@@ -4,9 +4,7 @@ import Utils
 from json import load
 
 
-Prefix = Utils.AttrDict(load(open("Configs.json"))).CONSTANTS.Prefix
-
-HELP = Utils.Help(f"requires Admin.Bot.unban", f"_{Prefix}unban iD (reason)_")
+HELP = Utils.Help(f"requires Admin.Bot.unban", f"_{Utils.Prefix}unban iD (reason)_")
 EVENTS = [Utils.EVENT.on_message]
 ALIASES = []
 
