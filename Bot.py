@@ -146,7 +146,7 @@ async def on_typing(channel: discord.abc.Messageable, user: Union[discord.User, 
 async def on_message(message: discord.Message):
 
     if message.content.startswith(Prefix):
-        if message.content.split()[0] == f"{Prefix}help":
+        if message.content.split()[0] == f"{Prefix}help" or message.content.split()[0] == f"{Prefix}h":
 
             embed = discord.Embed()
             embed.set_footer(text=f"requested by {message.author}", icon_url=message.author.avatar_url)
