@@ -10,9 +10,6 @@ HELP = Utils.Help(f"shows you your permissions", f"""
 > *{Prefix}perms*
 shows you your perms
 
-> *{Prefix}perms help*
-shows you this
-
 > *{Prefix}perms [USER-ID|USER-MENTION]*
 shows you perms from other
 

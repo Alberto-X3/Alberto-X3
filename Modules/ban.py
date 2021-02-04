@@ -6,7 +6,7 @@ from json import load
 
 Prefix = Utils.AttrDict(load(open("Configs.json"))).CONSTANTS.Prefix
 
-HELP = Utils.Help(f"requires Admin.Bot.ban\n_{Prefix}ban iD (reason)_")
+HELP = Utils.Help(f"requires Admin.Bot.ban", f"_{Prefix}ban iD (reason)_")
 EVENTS = [Utils.EVENT.on_message]
 ALIASES = []
 

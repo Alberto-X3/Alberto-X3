@@ -6,7 +6,7 @@ from json import load
 
 Prefix = Utils.AttrDict(load(open("Configs.json"))).CONSTANTS.Prefix
 
-HELP = Utils.Help(f"requires Admin.Bot.kick\n_{Prefix}kick iD (reason)_")
+HELP = Utils.Help(f"requires Admin.delete", f"_{Prefix}kick iD (reason)_")
 EVENTS = [Utils.EVENT.on_message]
 ALIASES = ["del"]
 
