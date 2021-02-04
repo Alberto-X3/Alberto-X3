@@ -74,7 +74,9 @@ EVENT = AttrDict({
 
 
 class Help(object):
-    def __init__(self, _help: Optional[str] = None, direct_help: Optional[str] = None, vanish: bool = False, order_1793: bool = False):
+    direct_help_default = "*Please contact the developer to add a help for this!*"
+
+    def __init__(self, _help: Optional[str] = None, direct_help: str = direct_help_default, vanish: bool = False, order_1793: bool = False):
         """
         _help: :class:`str`
             is the printed value of the help
