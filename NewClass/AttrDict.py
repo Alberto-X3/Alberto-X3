@@ -6,7 +6,6 @@ _VT_co = TypeVar('VT_co', covariant=True)  # Value type covariant containers.
 
 class AttrDict(dict):
     def __init__(self, data: dict) -> None:
-        print("__init__")
         for key in list(data.keys()):
             if type(data[key]) == dict:
                 self.__dict__[key.replace(" ", "_")] = self.__class__(data[key])
@@ -14,7 +13,7 @@ class AttrDict(dict):
                 self.__dict__[key.replace(" ", "_")] = data[key]
 
     def __repr__(self) -> str:
-        def recursive(data: __class__) -> str:
+        def recursive(data) -> str:
             try:
                 __ = ""
                 for key in list(data.__dict__.keys()):
