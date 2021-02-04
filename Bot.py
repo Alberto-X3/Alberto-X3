@@ -182,6 +182,7 @@ Aliases: {Modules.libs[_module].ALIASES}
 
             else:
                 embed.title = "**__help__**"
+                embed.add_field(name="better help:", value=f"> {Prefix}help NAME", inline=False)
 
                 for module in Modules.MODULES:
                     if Utils.EVENT.on_message in Modules.libs[module].EVENTS:
