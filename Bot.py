@@ -1,6 +1,4 @@
-from json import load
 from typing import *
-from NewClass import AttrDict
 
 import datetime
 import discord
@@ -9,9 +7,8 @@ import Utils
 
 
 client = discord.Client()
-CONFIGS = AttrDict(load(open("Configs.json")))
-TOKEN = CONFIGS.CONSTANTS.Token
-Prefix = CONFIGS.CONSTANTS.Prefix
+TOKEN = Utils.DATA.CONSTANTS.Token
+Prefix = Utils.Prefix
 
 
 exceptions = True

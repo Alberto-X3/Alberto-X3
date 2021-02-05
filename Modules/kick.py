@@ -1,8 +1,6 @@
 import discord
 import Utils
 
-from json import load
-
 
 HELP = Utils.Help(f"requires Admin.Bot.kick", f"_{Utils.Prefix}kick iD (reason)_")
 EVENTS = [Utils.EVENT.on_message]
@@ -11,7 +9,6 @@ EVENTS = [Utils.EVENT.on_message]
 async def __main__(client: discord.Client, _event: int, message: discord.Message):
 
     user_perms = Utils.perms(str(message.author.id))
-    DATA = Utils.AttrDict(load(open("Configs.json")))
 
     if user_perms.Admin.kick:
         if len(message.content.split()) >= 2:
@@ -21,7 +18,7 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
                 else:
                     reason = "No reason..."
 
-                logger = Utils.Logger(channel=await client.fetch_channel(DATA.IDs.Channels.Logs))
+                logger = Utils.Logger(channel=await client.fetch_channel(Utils.DATA.IDs.Channels.Logs))
                 channel: discord.TextChannel = message.channel
                 guild:         discord.Guild = message.guild
                 user:           discord.User = await client.fetch_user(int(message.content.split()[1]))
