@@ -116,6 +116,7 @@ class Logger:
             "kick":            "*{}* kicked *{}* with reason *{}*",
             "ban":             "*{}* banned *{}* with reason *{}*",
             "unban":           "*{}* unbanned *{}* with reason *{}*",
+            "softban":         "*{}* softbanned *{}* with reason *{}*",
             "delete":          "*{}* deleted *{}* messages in *{}*",
             "not implemented": "{}; {}; {}; {}; {}"
         })
@@ -159,6 +160,15 @@ class Logger:
                     ) -> None:
         await self.channel.send(
             self.messages.unban.format(user.mention, target.mention, reason)
+        )
+
+    async def softban(self,
+                      user: discord.User,
+                      target: discord.User,
+                      reason: str
+                      ) -> None:
+        await self.channel.send(
+            self.messages.softban.format(user.mention, target.mention, reason)
         )
 
     async def delete(self,

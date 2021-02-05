@@ -4,6 +4,7 @@
       "kick": false,
       "ban": false,
       "unban": false,
+      "softban": false,
       "delete": false,
       "Bot": {
         "kill": false,
@@ -23,6 +24,7 @@
       "kick": true,
       "ban": true,
       "unban": true,
+      "softban": true,
       "delete": true,
       "Bot": {
         "kill": true,

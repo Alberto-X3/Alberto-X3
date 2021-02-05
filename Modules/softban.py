@@ -4,9 +4,9 @@ import Utils
 from json import load
 
 
-HELP = Utils.Help(f"requires Admin.ban", f"_{Utils.Prefix}ban iD (reason)_")
+HELP = Utils.Help(f"requires Admin.softban", f"_{Utils.Prefix}softban iD (reason)_")
 EVENTS = [Utils.EVENT.on_message]
-ALIASES = []
+ALIASES = ["sb"]
 
 
 async def __main__(client: discord.Client, _event: int, message: discord.Message):
@@ -14,7 +14,7 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
     user_perms = Utils.perms(str(message.author.id))
     DATA = Utils.AttrDict(load(open("Configs.json")))
 
-    if user_perms.Admin.ban:
+    if user_perms.Admin.softban:
         if len(message.content.split()) >= 2:
             if message.content.split()[1].isnumeric():
                 if len(message.content.split()) > 2:
@@ -29,9 +29,10 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
                 handler:        discord.User = message.author
 
                 try:
-                    await user.send(f"You where banned from the {guild} Server.\n_{reason}_")
-                    await guild.ban(user=user, reason=reason)
-                    await logger.ban(user=handler, target=user, reason=reason)
+                    await user.send(f"You where softbanned from the {guild} Server.\n**Please be friendly, otherwise we can make it to a permanent one!!!**\n_{reason}_")
+                    await guild.ban(user=user, reason="SOFTBAN | "+reason)
+                    await guild.unban(user=user, reason="SOFTBAN | "+reason)
+                    await logger.softban(user=handler, target=user, reason=reason)
                     await message.delete()
                 except ValueError:
                     await channel.send(":x: ERROR :x:")
@@ -44,4 +45,4 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
             await message.channel.send(":x: Please enter the User-iD")
 
     else:
-        await message.channel.send(":x: requires Admin.ban")
+        await message.channel.send(":x: requires Admin.softban")
