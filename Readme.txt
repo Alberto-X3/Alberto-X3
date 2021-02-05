@@ -1,28 +1,19 @@
-In `Configs.json` you must set the Token and Prefix.
-You also can define some other variables in there.
-(the own class `AttrDict` (*1) allows you, to get a value by calling it as an attribute und also as an item)
+Here is the code from my discord.py Bot on my
+server (www.discord.io/albertunruh)...
+The code here is always synchronized with the
+code from my Bot and so you spy into the
+running code ;) ...
 
-Utils.py is for the class `HELP` that is used for the `help`-command and for the supported events (EVENTS: list = Utils.EVENT.on_ready)
+If you have some questions you can join me on
+my dc and you can question your questions to
+me.
 
-The module `Modules` is for the commands, each `.py`-file has the same name as the command and must have the following structure:
-/--------------------------------------
-| test.py:
-|
-| HELP = Utils.Help(_help="This is just a testfile which is invisible", vanish=True)  # you can leave the brackets empty, it will also work
-| EVENTS = [Utils.EVENT.on_message]  # is to let the bot know, where the bot has to run the command
-|
-| async def __main__(client, _event, message):  # client is a discord.Client and message is a discord.Message
-|     pass  # here you can run your command
-|     '''
-|     if _event == Utils.EVENT.on_message:
-|         print("The event is 'on_message'")
-|     '''
-\--------------------------------------
+I hope you'll have fun with the code, if you
+are going to inspect it and otherwise I hope
+to see you on my server.
 
-`Bot.py` is the file, that is going to run the Bot.
+(and please be not to hard to me with
+my english(I'm a german student and
+still studying))
 
-
----------------------------------------
-*1:
-    url: https://github.com/AlbertUnruh/NewClass/blob/main/AttrDict.py
-    you must download the files and then import it in your command-files, if you want, but you need the file `AttrDict` OR the module `NewClass` for `Bot.py`
+~Albert Unruh
