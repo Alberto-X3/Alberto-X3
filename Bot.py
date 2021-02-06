@@ -6,7 +6,8 @@ import Modules
 import Utils
 
 
-client = discord.Client()
+intents = discord.Intents.all()
+client = discord.Client(intents=intents)
 TOKEN = Utils.DATA.CONSTANTS.Token
 Prefix = Utils.Prefix
 
