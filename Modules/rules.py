@@ -28,7 +28,7 @@ async def accept(client: discord.Client, reaction: discord.RawReactionActionEven
             if reaction.emoji.name == "✅":
                 if role not in reaction.member.roles:
                     await reaction.member.add_roles(role, reason="Rules accepted...")
-                    await logger.rules(user=reaction.member.user)
+                    await logger.rules(user=reaction.member)
                 channel: discord.TextChannel = client.get_channel(id=reaction.channel_id)
                 message: discord.Message = await channel.fetch_message(reaction.message_id)
 
