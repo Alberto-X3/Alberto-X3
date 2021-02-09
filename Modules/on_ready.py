@@ -62,18 +62,19 @@ async def __main__(client: discord.Client, _event: int):
             active = active[1:]
 
         msg = f"""
+__**🌐 World Wide**__
 ```md
 COVID-19 Cases
 ------------------------
-{cases.decode():11}{f" < +{int_cases-old_int_cases:5} >" if int_cases-old_int_cases and not first else ""}
+{cases.decode():11}{f" < {'+' if int_cases-old_int_cases > 0 else '-'}{abs(int_cases-old_int_cases):5} >" if int_cases-old_int_cases and not first else ""}
 
 Deaths
 ------------------------
-{deaths.decode():11}{f" < +{int_deaths-old_int_deaths:5} >" if int_deaths-old_int_deaths and not first else ""}
+{deaths.decode():11}{f" < {'+' if int_deaths-old_int_deaths > 0 else '-'}{abs(int_deaths-old_int_deaths):5} >" if int_deaths-old_int_deaths and not first else ""}
 
 Recovered
 ------------------------
-{recovered.decode():11}{f" < +{int_recovered-old_int_recovered:5} >" if int_recovered-old_int_recovered and not first else ""}
+{recovered.decode():11}{f" < {'+' if int_recovered-old_int_recovered > 0 else '-'}{abs(int_recovered-old_int_recovered):5} >" if int_recovered-old_int_recovered and not first else ""}
 
 Active
 ------------------------
