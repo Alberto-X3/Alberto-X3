@@ -77,8 +77,8 @@ Recovered
 
 Active
 ------------------------
-{active:11}{f" < {'+' if int_active-old_int_active > 0 else '-'}{int_active-old_int_active*2//2:5} >" if int_active-old_int_active and not first else ""}
-{int_active}
+{active:11}{f" < {'+' if int_active-old_int_active > 0 else '-'}{abs(int_active-old_int_active):5} >" if int_active-old_int_active and not first else ""}
+
 > {datetime.now().date()} {datetime.now().hour}:{"0"+str(datetime.now().minute) if datetime.now().minute < 10 else datetime.now().minute}```
 coded by <@{Utils.DATA.Author_id}> for @here :)
 """
