@@ -52,6 +52,6 @@ async def accepted(client: discord.Client):
 
             if role not in member.roles and reaction.emoji.name == "✅":
                 await member.add_roles(role, reason="Rules accepted...")
-                await logger.rules(user=member.user)
+                await logger.rules(user=member)
 
             await message.remove_reaction(emoji=reaction.emoji, member=member)
