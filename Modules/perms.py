@@ -5,6 +5,7 @@ import Utils
 HELP = Utils.Help(f"shows you your permissions", f"""
 > *{Utils.Prefix}perms*
 shows you your perms
+_requires _
 
 > *{Utils.Prefix}perms [USER-ID|USER-MENTION]*
 shows you perms from other
@@ -14,6 +15,7 @@ adds permissions for a user
 
 > *{Utils.Prefix}perms [remove|-] [USER-ID|USER-MENTION] [PERMISSION]*
 removes permissions from a user
+
 """)
 EVENTS = [Utils.EVENT.on_message]
 ALIASES = ["p"]

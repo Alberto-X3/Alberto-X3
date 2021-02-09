@@ -2,7 +2,7 @@ import discord
 import Utils
 
 
-HELP = Utils.Help("requires Admin.Bot.kill\n~~kills the Bot...~~ really dangerous", "is very dangerous... so be careful with it")
+HELP = Utils.Help("~~kills the Bot...~~ really dangerous", "is very dangerous... so be careful with it\nrequires Admin.Bot.kill")
 EVENTS = [Utils.EVENT.on_message]
 ALIASES = ["most-dangerous-cmd"]
 

@@ -2,7 +2,7 @@ import discord
 import Utils
 
 
-HELP = Utils.Help(f"requires Admin.delete", f"_{Utils.Prefix}kick iD (reason)_")
+HELP = Utils.Help("deletes the amount of messages (max 99)", f"_{Utils.Prefix}delete iD (reason)_")
 EVENTS = [Utils.EVENT.on_message]
 ALIASES = ["del"]
 
@@ -15,7 +15,11 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
             if message.content.split(" ")[1].isnumeric():
                 await message.delete()
 
-                log = await message.channel.purge(limit=int(message.content.split()[1]), check=lambda msg_: not msg_.pinned)
+                limit = 99
+                if 0 < int(message.content.split()[1]) < limit:
+                    limit = int(message.content.split()[1])
+
+                log = await message.channel.purge(limit=limit, check=lambda msg_: not msg_.pinned)
                 channel_for_logging = await client.fetch_channel(Utils.DATA.IDs.Channels.Logs)
                 await Utils.Logger(channel_for_logging).delete(user=message.author, count=len(log), channel=message.channel)
 

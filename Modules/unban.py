@@ -4,7 +4,7 @@ import Utils
 from json import load
 
 
-HELP = Utils.Help(f"requires Admin.unban", f"_{Utils.Prefix}unban iD (reason)_")
+HELP = Utils.Help("unbans a user with the given iD", f"_{Utils.Prefix}unban iD (reason)_\nrequires Admin.unban")
 EVENTS = [Utils.EVENT.on_message]
 ALIASES = []
 

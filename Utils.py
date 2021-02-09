@@ -81,12 +81,13 @@ Prefix = DATA.CONSTANTS.Prefix
 class Help(object):
     direct_help_default = "*Please contact the developer to add a help for this!*"
 
-    def __init__(self, _help: Optional[str] = None, direct_help: str = direct_help_default, vanish: bool = False, order_1793: bool = False):
+    def __init__(self, _help: Optional[str] = None, direct_help: Union[str, bool] = False, vanish: bool = False, order_1793: bool = False):
         """
         _help: :class:`str`
             is the printed value of the help
-        direct_help: :class:`str`
-            is the printed value of the help when this function is called
+        direct_help: :class:Union[`str`,`bool`]
+            is the printed value of the help when this function is called, when it is a `str`,
+            if it's `True` it is the `direct_help_default`, otherwise it's `_help`
         vanish: :class:`bool`
             makes it invisible
         order_1793: :class:`bool`
@@ -94,7 +95,12 @@ class Help(object):
         """
 
         self.help = _help
-        self.direct_help = direct_help
+        if isinstance(direct_help, str):
+            self.direct_help = direct_help
+        elif direct_help:
+            self.direct_help = self.direct_help_default
+        else:
+            self.direct_help = self.help
         self.vanish = vanish
         self.order_1793 = order_1793
 

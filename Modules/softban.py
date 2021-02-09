@@ -2,7 +2,7 @@ import discord
 import Utils
 
 
-HELP = Utils.Help(f"requires Admin.softban", f"_{Utils.Prefix}softban iD (reason)_")
+HELP = Utils.Help(f"bans and unbans a user to delete all messages from the user", f"_{Utils.Prefix}softban iD (reason)_\requires Admin.softban")
 EVENTS = [Utils.EVENT.on_message]
 ALIASES = ["sb"]
 

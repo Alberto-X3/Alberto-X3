@@ -2,7 +2,7 @@ import discord
 import Utils
 
 
-HELP = Utils.Help("requires Admin.Bot.restart")
+HELP = Utils.Help("restarts the Bot", "requires Admin.Bot.restart")
 EVENTS = [Utils.EVENT.on_message]
 ALIASES = ["re"]
 

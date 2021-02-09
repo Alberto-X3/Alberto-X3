@@ -2,7 +2,7 @@ import discord
 import Utils
 
 
-HELP = Utils.Help(f"requires Admin.ban", f"_{Utils.Prefix}ban iD (reason)_")
+HELP = Utils.Help("bans a user by iD", f"_{Utils.Prefix}ban iD (reason)_\nrequires Admin.ban")
 EVENTS = [Utils.EVENT.on_message]
 ALIASES = []
 
