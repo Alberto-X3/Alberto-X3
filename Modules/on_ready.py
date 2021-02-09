@@ -33,7 +33,7 @@ async def __main__(client: discord.Client, _event: int):
     dis_recovered = 82
 
     first = True
-    old_int_cases = old_int_deaths = old_int_recovered = -1
+    old_int_cases = old_int_deaths = old_int_recovered = old_int_active = -1
     while True:
 
         data: requests.Response = requests.get(r"https://www.worldometers.info/coronavirus/")
@@ -56,20 +56,29 @@ async def __main__(client: discord.Client, _event: int):
         int_deaths = int(deaths.replace(b",", b""))
         int_recovered = int(recovered.replace(b",", b""))
 
+        int_active = int_cases - int_deaths - int_recovered
+        active = ("".join(str(int_active)[::-1][i]+"," if i % 3 == 2 else str(int_active)[::-1][i] for i in range(len(str(int_active)))))[::-1]
+        if active.startswith(","):
+            active = active[1:]
+
         msg = f"""
 ```md
 COVID-19 Cases
-----------------
-{cases.decode()}{f" +{int_cases-old_int_cases}" if int_cases-old_int_cases and not first else ""}
+------------------------
+{cases.decode():11}{f" < +{int_cases-old_int_cases:5} >" if int_cases-old_int_cases and not first else ""}
 
 Deaths
-----------------
-{deaths.decode()}{f" +{int_deaths-old_int_deaths}" if int_deaths-old_int_deaths and not first else ""}
+------------------------
+{deaths.decode():11}{f" < +{int_deaths-old_int_deaths:5} >" if int_deaths-old_int_deaths and not first else ""}
 
 Recovered
-----------------
-{recovered.decode()}{f" +{int_recovered-old_int_recovered}" if int_recovered-old_int_recovered and not first else ""}
+------------------------
+{recovered.decode():11}{f" < +{int_recovered-old_int_recovered:5} >" if int_recovered-old_int_recovered and not first else ""}
 
+Active
+------------------------
+{active:11}{f" < {'+' if int_active-old_int_active > 0 else '-'}{int_active-old_int_active*2//2:5} >" if int_active-old_int_active and not first else ""}
+{int_active}
 > {datetime.now().date()} {datetime.now().hour}:{"0"+str(datetime.now().minute) if datetime.now().minute < 10 else datetime.now().minute}```
 coded by <@{Utils.DATA.Author_id}> for @here :)
 """
@@ -79,6 +88,7 @@ coded by <@{Utils.DATA.Author_id}> for @here :)
         old_int_cases = int_cases
         old_int_deaths = int_deaths
         old_int_recovered = int_recovered
+        old_int_active = int_active
 
         if first:
             first = False
