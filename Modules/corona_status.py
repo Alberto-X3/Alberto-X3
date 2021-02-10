@@ -1419,7 +1419,7 @@ Active
 ------------------------
 {active.decode():11}
 
-> {datetime.now().date()} {datetime.now().hour}:{"0"+str(datetime.now().minute) if datetime.now().minute < 10 else datetime.now().minute}```
+> UTC {datetime.utcnow().date()} {datetime.utcnow().hour}:{"0"+str(datetime.utcnow().minute) if datetime.utcnow().minute < 10 else datetime.utcnow().minute}```
 coded by <@{Utils.DATA.Author_id}> for @here :)
 [updating the country can take some time]
 """
