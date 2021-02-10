@@ -17,7 +17,7 @@ async def __main__(client: discord.Client, _event: int):
     ...
 
     id_channel: int = 808742319066579014
-    id_message: int = 808743419768995920
+    id_message: int = 809048308358184981
 
     channel: discord.TextChannel = client.get_channel(id_channel)
     message: discord.Message = await channel.fetch_message(id_message)
