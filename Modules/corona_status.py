@@ -1376,9 +1376,9 @@ async def __main__(client: discord.Client, _event: int, reaction: discord.RawRea
     '''
 
     url = key = ""
-    msg = await channel.fetch_message(reaction.message_id)
 
     if reaction.channel_id == id_channel:
+        msg = await channel.fetch_message(reaction.message_id)
         for _id in msg_ids:
             if reaction.message_id == _id:
                 for key in list(available_stats.keys()):

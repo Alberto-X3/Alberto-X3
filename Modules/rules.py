@@ -15,6 +15,9 @@ async def __main__(client: discord.Client, _event: int, reaction: discord.RawRea
 
 async def accept(client: discord.Client, reaction: discord.RawReactionActionEvent):
 
+    if reaction.member == client.user:
+        return
+
     logger = Utils.Logger(channel=await client.fetch_channel(Utils.DATA.IDs.Channels.Logs))
 
     channel_id = Utils.DATA.IDs.Channels.Rules
@@ -29,10 +32,11 @@ async def accept(client: discord.Client, reaction: discord.RawReactionActionEven
                 if role not in reaction.member.roles:
                     await reaction.member.add_roles(role, reason="Rules accepted...")
                     await logger.rules(user=reaction.member)
-                channel: discord.TextChannel = client.get_channel(id=reaction.channel_id)
-                message: discord.Message = await channel.fetch_message(reaction.message_id)
+            channel: discord.TextChannel = client.get_channel(id=reaction.channel_id)
+            message: discord.Message = await channel.fetch_message(reaction.message_id)
 
-                await message.remove_reaction(emoji=reaction.emoji, member=reaction.member)
+            await message.add_reaction("✅")
+            await message.remove_reaction(emoji=reaction.emoji, member=reaction.member)
 
 
 async def accepted(client: discord.Client):
