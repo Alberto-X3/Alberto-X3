@@ -1393,7 +1393,7 @@ async def __main__(client: discord.Client, _event: int, reaction: discord.RawRea
 
     elif _event == Utils.EVENT.on_ready:
         while True:
-            key = message.content.splitlines().split()[1].replace("*", "").replace("_", "")
+            key = message.content.splitlines()[0].split()[1].replace("*", "").replace("_", "")
             url = available_stats[key].url
 
             await update(key, url, message)
