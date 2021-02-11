@@ -1357,9 +1357,10 @@ available_stats = Utils.AttrDict({
 async def __main__(client: discord.Client, _event: int, reaction: discord.RawReactionActionEvent = None):
 
     channel: discord.TextChannel = client.get_channel(id_channel)
-    message: discord.Message = await channel.fetch_message(id_message)
 
     if _event == Utils.EVENT.on_raw_reaction_add:
+
+        message: discord.Message = await channel.fetch_message(id_message)
 
         if reaction.member == client.user:
             return
@@ -1393,6 +1394,9 @@ async def __main__(client: discord.Client, _event: int, reaction: discord.RawRea
 
     elif _event == Utils.EVENT.on_ready:
         while True:
+
+            message: discord.Message = await channel.fetch_message(id_message)
+
             key = message.content.splitlines()[0].split()[1].replace("*", "").replace("_", "")
             url = available_stats[key].url
 
