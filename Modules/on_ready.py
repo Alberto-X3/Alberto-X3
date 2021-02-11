@@ -2,7 +2,7 @@ import discord
 import Utils
 
 from asyncio import sleep
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 
 
@@ -94,4 +94,4 @@ coded by <@{Utils.DATA.Author_id}> for @here :)
         if first:
             first = False
 
-        await sleep(60)
+        await sleep((timedelta(minutes=1)-timedelta(seconds=datetime.utcnow().second, microseconds=datetime.utcnow().microsecond)).total_seconds())
