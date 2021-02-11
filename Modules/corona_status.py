@@ -1,22 +1,16 @@
 import discord
 import Utils
 
-from datetime import datetime
+from datetime import datetime, timedelta
+from asyncio import sleep
 import requests
 
 
-EVENTS = [Utils.EVENT.on_raw_reaction_add]
+EVENTS = [Utils.EVENT.on_raw_reaction_add, Utils.EVENT.on_ready]
 
-
-async def __main__(client: discord.Client, _event: int, reaction: discord.RawReactionActionEvent):
-
-    id_channel: int = 808742319066579014
-    id_message: int = 809048491186716734
-
-    channel: discord.TextChannel = client.get_channel(id_channel)
-    message: discord.Message = await channel.fetch_message(id_message)
-
-    msg_ids = [809048529246617630,
+id_channel: int = 808742319066579014
+id_message: int = 809048491186716734
+msg_ids = [809048529246617630,
                809048553640165376,
                809048671080939550,
                809048677951602688,
@@ -30,8 +24,7 @@ async def __main__(client: discord.Client, _event: int, reaction: discord.RawRea
                809049260527452161,
                809049436340224081,
                809049491273023519]
-
-    available_stats = Utils.AttrDict({
+available_stats = Utils.AttrDict({
         "USA": {
             "reaction":      "🇺🇸",
             "url":           "https://www.worldometers.info/coronavirus/",
@@ -1360,34 +1353,55 @@ async def __main__(client: discord.Client, _event: int, reaction: discord.RawRea
         },
     })
 
-    if reaction.member == client.user:
-        return
 
-    '''  # To reset the reactions
-    msgs = [await channel.fetch_message(_id) for _id in msg_ids]
+async def __main__(client: discord.Client, _event: int, reaction: discord.RawReactionActionEvent = None):
 
-    for msg in msgs:
-        await msg.clear_reactions()
+    channel: discord.TextChannel = client.get_channel(id_channel)
+    message: discord.Message = await channel.fetch_message(id_message)
 
-    _ = 0
-    for key in list(available_stats.keys()):
-        await msgs[_//20].add_reaction(discord.PartialEmoji(name=available_stats[key].reaction))
-        _ += 1
-    '''
+    if _event == Utils.EVENT.on_raw_reaction_add:
 
-    url = key = ""
+        if reaction.member == client.user:
+            return
 
-    if reaction.channel_id == id_channel:
-        msg = await channel.fetch_message(reaction.message_id)
-        for _id in msg_ids:
-            if reaction.message_id == _id:
-                for key in list(available_stats.keys()):
-                    if reaction.emoji == discord.PartialEmoji(name=available_stats[key].reaction):
-                        url = available_stats[key].url
-                        break
-                break
-        await msg.remove_reaction(reaction.emoji, reaction.member)
+        '''  # To reset the reactions
+        msgs = [await channel.fetch_message(_id) for _id in msg_ids]
+    
+        for msg in msgs:
+            await msg.clear_reactions()
+    
+        _ = 0
+        for key in list(available_stats.keys()):
+            await msgs[_//20].add_reaction(discord.PartialEmoji(name=available_stats[key].reaction))
+            _ += 1
+        '''
 
+        key = url = ""
+
+        if reaction.channel_id == id_channel:
+            msg = await channel.fetch_message(reaction.message_id)
+            for _id in msg_ids:
+                if reaction.message_id == _id:
+                    for key in list(available_stats.keys()):
+                        if reaction.emoji == discord.PartialEmoji(name=available_stats[key].reaction):
+                            url = available_stats[key].url
+                            break
+                    break
+            await msg.remove_reaction(reaction.emoji, reaction.member)
+
+        await update(key, url, message)
+
+    elif _event == Utils.EVENT.on_ready:
+        while True:
+            key = message.content.splitlines().split()[1].replace("*", "").replace("_", "")
+            url = available_stats[key].url
+
+            await update(key, url, message)
+
+            await sleep((timedelta(minutes=1)-timedelta(seconds=datetime.utcnow().second, microseconds=datetime.utcnow().microsecond)).total_seconds())
+
+
+async def update(key: str, url: str, message: discord.Message):
     if url:
         data: requests.Response = requests.get(url)
 
@@ -1401,7 +1415,6 @@ async def __main__(client: discord.Client, _event: int, reaction: discord.RawRea
 
         msg = f"""
 __**{available_stats[key].reaction} {key}**__
-*This msg will __NOT__ be updated automatically!*
 ```md
 COVID-19 Cases
 ------------------------
