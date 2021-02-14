@@ -246,7 +246,7 @@ supported = Utils.AttrDict({
     "Micronesia": {"reaction": "🇫🇲", "tag": b"Micronesia"},
     "Vanuatu": {"reaction": "🇻🇺", "tag": b"Vanuatu"}
 })
-sep = b"</br>"
+sep = b"</td>"
 url = "https://www.worldometers.info/coronavirus/"
 
 
@@ -300,18 +300,18 @@ async def __main__(client: discord.Client, _event: int, reaction: discord.RawRea
 
 
 async def update(key: str, message: discord.Message):
-    if url:
-        data: requests.Response = requests.get(url)
 
-        pos = data.content.find(supported[key].tag)
-        data: Utils.List[bytes] = data.content[pos:].split(sep)
+    data: requests.Response = requests.get(url)
 
-        cases = data[1].split(b">")[-1]
-        deaths = data[3].split(b">")[-1]
-        recovered = data[5].split(b">")[-1]
-        active = data[7].split(b">")[-1]
+    pos = data.content.find(supported[key].tag)
+    data: Utils.List[bytes] = data.content[pos:].split(sep)
 
-        msg = f"""
+    cases = data[1].split(b">")[-1]
+    deaths = data[3].split(b">")[-1]
+    recovered = data[5].split(b">")[-1]
+    active = data[7].split(b">")[-1]
+
+    msg = f"""
 __**{supported[key].reaction} {key}**__
 ```md
 COVID-19 Cases
@@ -335,4 +335,4 @@ coded by <@{Utils.DATA.Author_id}> for @here :)
 [updating the country can take some time]
 """
 
-        await message.edit(content=msg)
+    await message.edit(content=msg)
