@@ -159,7 +159,7 @@ supported = Utils.AttrDict({
     "Mayotte": {"reaction": "🇾🇹", "tag": b"Mayotte"},
     "Burkina Faso": {"reaction": "🇧🇫", "tag": b"Burkina Faso"},
     "Hong Kong": {"reaction": "🇭🇰", "tag": b"Hong Kong"},
-    "Réunion": {"reaction": "🇷🇪", "tag": "Réunion".encode()},
+    "Réunion": {"reaction": "🇷🇪", "tag": "Réunion".encode(encoding="UTF-8")},
     "Andorra": {"reaction": "🇦🇩", "tag": b"Andorra"},
     "Lesotho": {"reaction": "🇱🇸", "tag": b"Lesotho"},
     "Guadeloupe": {"reaction": "🇬🇵", "tag": b"Guadeloupe"},
@@ -180,7 +180,7 @@ supported = Utils.AttrDict({
     "Somalia": {"reaction": "🇸🇴", "tag": b"Somalia"},
     "South Sudan": {"reaction": "🇸🇸", "tag": b"South Sudan"},
     "Niger": {"reaction": "🇳🇪", "tag": b"Niger"},
-    "Curaçao": {"reaction": "🇨🇼", "tag": "Curaçao".encode()},
+    "Curaçao": {"reaction": "🇨🇼", "tag": "Curaçao".encode(encoding="UTF-8")},
     "Gambia": {"reaction": "🇬🇲", "tag": b"Gambia"},
     "Benin": {"reaction": "🇧🇯", "tag": b"Benin"},
     "Gibraltar": {"reaction": "🇬🇮", "tag": b"Gibraltar"},
@@ -291,7 +291,7 @@ async def __main__(client: discord.Client, _event: int, reaction: discord.RawRea
 
             message: discord.Message = await channel.fetch_message(id_message)
 
-            key = message.content.splitlines()[0].split()[1].replace("*", "").replace("_", "")
+            key = message.content.splitlines()[0].split()[1].replace("*", "")[:-2]
 
             await update(key, message)
 
