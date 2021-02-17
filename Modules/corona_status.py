@@ -306,10 +306,10 @@ async def update(key: str, message: discord.Message):
     pos = data.content.find(supported[key].tag)
     data: Utils.List[bytes] = data.content[pos:].split(sep)
 
-    cases = data[1].split(b">")[-1]
-    deaths = data[3].split(b">")[-1]
-    recovered = data[5].split(b">")[-1]
-    active = data[7].split(b">")[-1]
+    cases:     bytes = data[1].split(b">")[-1]
+    deaths:    bytes = data[3].split(b">")[-1]
+    recovered: bytes = data[5].split(b">")[-1]
+    active:    bytes = data[7].split(b">")[-1]
 
     msg = f"""
 __**{supported[key].reaction} {key}**__
