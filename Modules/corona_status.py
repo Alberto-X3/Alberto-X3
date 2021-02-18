@@ -247,7 +247,7 @@ supported = Utils.AttrDict({
     "Vanuatu": {"reaction": "🇻🇺", "tag": b"Vanuatu"}
 })
 sep = b"</td>"
-url = "https://www.worldometers.info/coronavirus/"
+url = r"https://www.worldometers.info/coronavirus/"
 
 
 async def __main__(client: discord.Client, _event: int, reaction: discord.RawReactionActionEvent = None):
@@ -331,7 +331,7 @@ Active
 {active.decode():11}
 
 > UTC {datetime.utcnow().date()} {datetime.utcnow().hour}:{"0" + str(datetime.utcnow().minute) if datetime.utcnow().minute < 10 else datetime.utcnow().minute}```
-coded by <@{Utils.DATA.Author_id}> for @here :)
+@here is the source: <{url}> :)
 [updating the country can take some time]
 """
 

@@ -28,6 +28,8 @@ async def __main__(client: discord.Client, _event: int):
 
     tag_end = b"</span>"
 
+    url = r"https://www.worldometers.info/coronavirus/"
+
     dis_cases = 86
     dis_deaths = 56
     dis_recovered = 82
@@ -36,7 +38,7 @@ async def __main__(client: discord.Client, _event: int):
     old_int_cases = old_int_deaths = old_int_recovered = old_int_active = -1
     while True:
 
-        data: requests.Response = requests.get(r"https://www.worldometers.info/coronavirus/")
+        data: requests.Response = requests.get(url)
 
         pos_cases = data.content.find(tag_cases)
         pos_deaths = data.content.find(tag_deaths)
@@ -81,7 +83,7 @@ Active
 {active:11}{f" < {'+' if int_active-old_int_active > 0 else '-'}{abs(int_active-old_int_active):5} >" if int_active-old_int_active and not first else ""}
 
 > UTC {datetime.utcnow().date()} {datetime.utcnow().hour}:{"0"+str(datetime.utcnow().minute) if datetime.utcnow().minute < 10 else datetime.utcnow().minute}```
-coded by <@{Utils.DATA.Author_id}> for @here :)
+@here is the source: <{url}> :)
 """
 
         await message.edit(content=msg)
