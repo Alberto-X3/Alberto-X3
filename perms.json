@@ -15,7 +15,8 @@
       "Perms": {
         "seeOther": false,
         "seeOwn": true,
-        "set": false
+        "set": false,
+        "setMultiple": false
       }
     }
   },
@@ -35,7 +36,8 @@
       "Perms": {
         "seeOther": true,
         "seeOwn": true,
-        "set": true
+        "set": true,
+        "setMultiple": true
       }
     }
   }
