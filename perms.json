@@ -16,7 +16,7 @@
         "seeOther": false,
         "seeOwn": true,
         "set": false,
-        "setMultiple": false
+        "removeMultiple": false
       }
     }
   },
@@ -37,7 +37,7 @@
         "seeOther": true,
         "seeOwn": true,
         "set": true,
-        "setMultiple": true
+        "removeMultiple": true
       }
     }
   }
