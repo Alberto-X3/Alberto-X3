@@ -30,7 +30,7 @@ class AttrDict(dict):
 
     def __getitem__(self, item): return self.__dict__.__getitem__(item.replace(" ", "_"))
     def __getattr__(self, item): return self.__getitem__(item)
-    def __setitem__(self, key, value): self.__dict__[key.replace(" ", "_")] = self.__class__(value.copy()); print("DEBUG")
+    def __setitem__(self, key, value): self.__dict__[key.replace(" ", "_")] = value; print("DEBUG")
     def __setattr__(self, key, value): return self.__setitem__(key, value)
     def __contains__(self, item): return self.__dict__.__contains__(item)
     def __delitem__(self, key): return self.__dict__.__delitem__(key)
