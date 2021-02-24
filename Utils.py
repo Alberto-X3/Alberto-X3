@@ -203,7 +203,7 @@ def perms(_id: str) -> AttrDict:
 
     PERMS = AttrDict(load(open("perms.json")))
     try:
-        user_perms = PERMS[str(_id)]
+        user_perms = PERMS[_id]
     except KeyError:
         user_perms = PERMS.default
         PERMS[_id] = user_perms
