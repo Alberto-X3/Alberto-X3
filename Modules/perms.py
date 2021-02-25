@@ -126,8 +126,11 @@ async def set_(message: discord.Message, user_perms: Utils.AttrDict, new: bool):
                         await message.channel.send(":x: You don't have permissions to remove multiple permissions at once! :x:")
                         return
                 else:
-                    await message.channel.send(":x: You don't have permissions to add multiple permissions at once! :x:")
-                    return
+                    if message.author.id == Utils.DATA.Author_id:
+                        new_perms = replace(root, keys, replaces(eval(f"root.{message.content.split()[-1]}"), new))
+                    else:
+                        await message.channel.send(":x: You don't have permissions to add multiple permissions at once! :x:")
+                        return
 
             from json import load, dump
             permissions = Utils.AttrDict(load(open("perms.json")))
