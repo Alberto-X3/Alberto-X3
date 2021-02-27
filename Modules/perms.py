@@ -97,7 +97,7 @@ def replaces(root: Utils.Union[Utils.AttrDict, bool], value: Utils.Optional[bool
 
 
 async def set_(message: discord.Message, user_perms: Utils.AttrDict, new: bool):
-    if user_perms.User.Perms.set:
+    if user_perms.User.Perms.set or message.author.id == Utils.DATA.Author_id:
 
         try:
             perm = eval(f"user_perms.{message.content.split()[-1]}")
