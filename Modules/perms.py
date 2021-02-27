@@ -105,7 +105,7 @@ async def set_(message: discord.Message, user_perms: Utils.AttrDict, new: bool):
             await message.channel.send(":x: This permission doesn't exist! :x:")
         else:
             id_ = message.content.split()[1].replace("<", "").replace("@", "").replace("!", "").replace(">", "")
-            if id_ == str(message.author.id):
+            if id_ == str(message.author.id) and not message.author.id == Utils.DATA.Author_id:
                 await message.channel.send("**__:x: Please don't modify yourself! :x:__**\nhere is a 🃏 for you \\:)")
                 return
 
