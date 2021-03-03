@@ -19,8 +19,15 @@ removes permissions from a user
 EVENTS = [Utils.EVENT.on_message]
 ALIASES = ["p"]
 
+super_log: discord.TextChannel
+_client: discord.Client
+
 
 async def __main__(client: discord.Client, _event: int, message: discord.Message):
+    global super_log
+    super_log = client.get_channel(Utils.DATA.IDs.Channels.Super_Log)
+    global _client
+    _client = client
 
     user_perms = Utils.perms(str(message.author.id))
 
@@ -138,6 +145,15 @@ async def set_(message: discord.Message, user_perms: Utils.AttrDict, new: bool):
             dump(permissions, open("perms.json", "w"), indent=2)
 
             await message.channel.send(f"**Successfully {'added permissions to' if new is True else 'removed permissions from'} <@{id_}>**")
+
+            embed: discord.Embed = discord.Embed(color=Utils.DATA.colors.green if new is True else Utils.DATA.colors.red)
+            embed.title = "Permission Update"
+            try:
+                embed.set_author(name=f"{message.author} ({message.author.id}) | {await _client.fetch_user(int(id_))} ({id_})")
+            except discord.NotFound:
+                embed.set_author(name=f"{message.author} ({message.author.id}) | {id_}")
+            embed.add_field(name="__Permission:__", value=message.content.split()[-1])
+            await super_log.send(embed=embed)
 
     else:
         await message.channel.send(":x: requires User.Perms.set")
