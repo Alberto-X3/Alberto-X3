@@ -33,7 +33,7 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
         user_perms = Utils.perms(str(message.author.id))
 
         # not 'seeOwn'
-        if len(message.content.split) > 1:
+        if len(message.content.split()) > 1:
 
             if message.content.split()[1].replace("<", "").replace("@", "").replace("!", "").replace(">", "").isnumeric() and len(message.content.split()) == 2:
 
