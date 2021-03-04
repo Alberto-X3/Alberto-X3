@@ -301,8 +301,9 @@ async def __main__(client: discord.Client, _event: int, reaction: discord.RawRea
     except Exception as e:
         super_log: discord.TextChannel = client.get_channel(Utils.DATA.IDs.Channels.Super_Log)
 
-        embed: discord.Embed = discord.Embed(title=__name__, description=e)
-
+        embed: discord.Embed = discord.Embed(title=__name__,
+                                             description=f"{e.__class__.__name__}: {e.__str__()}\n",
+                                             color=discord.Color.magenta())
         await super_log.send(embed=embed)
 
 
