@@ -71,7 +71,7 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
                 await message.channel.send(":x: requires User.Perms.seeOwn")
 
     except Exception as e:
-        super_log: discord.TextChannel = client.get_channel(Utils.DATA.IDs.Channels.Super_Log)
+        super_log = client.get_channel(Utils.DATA.IDs.Channels.Super_Log)
 
         embed: discord.Embed = discord.Embed(title=__name__, description=e)
 
