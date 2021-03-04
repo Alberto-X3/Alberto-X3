@@ -6,11 +6,19 @@ EVENTS = [Utils.EVENT.on_raw_reaction_add, Utils.EVENT.on_ready]
 
 
 async def __main__(client: discord.Client, _event: int, reaction: discord.RawReactionActionEvent = None):
-    if _event == Utils.EVENT.on_raw_reaction_add:
-        await accept(client, reaction)
+    try:
+        if _event == Utils.EVENT.on_raw_reaction_add:
+            await accept(client, reaction)
 
-    if _event == Utils.EVENT.on_ready:
-        await accepted(client)
+        if _event == Utils.EVENT.on_ready:
+            await accepted(client)
+
+    except Exception as e:
+        super_log: discord.TextChannel = client.get_channel(Utils.DATA.IDs.Channels.Super_Log)
+
+        embed: discord.Embed = discord.Embed(title=__name__, description=e)
+
+        await super_log.send(embed=embed)
 
 
 async def accept(client: discord.Client, reaction: discord.RawReactionActionEvent):

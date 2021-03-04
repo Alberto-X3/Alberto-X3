@@ -105,4 +105,3 @@ async def __main__(client: discord.Client, _event: int):
         embed: discord.Embed = discord.Embed(title=__name__, description=e)
 
         await super_log.send(embed=embed)
-

@@ -24,50 +24,58 @@ _client: discord.Client
 
 
 async def __main__(client: discord.Client, _event: int, message: discord.Message):
-    global super_log
-    super_log = client.get_channel(Utils.DATA.IDs.Channels.Super_Log)
-    global _client
-    _client = client
+    try:
+        global super_log
+        super_log = client.get_channel(Utils.DATA.IDs.Channels.Super_Log)
+        global _client
+        _client = client
 
-    user_perms = Utils.perms(str(message.author.id))
+        user_perms = Utils.perms(str(message.author.id))
 
-    # not 'seeOwn'
-    if len(message.content.split()) > 1:
+        # not 'seeOwn'
+        if len(message.content.split()) > 1:
 
-        if message.content.split()[1].replace("<", "").replace("@", "").replace("!", "").replace(">", "").isnumeric() and len(message.content.split()) == 2:
+            if message.content.split()[1].replace("<", "").replace("@", "").replace("!", "").replace(">", "").isnumeric() and len(message.content.split()) == 2:
 
-            # 'seeOther'
-            if len(message.content.split()) == 2:
+                # 'seeOther'
+                if len(message.content.split()) == 2:
 
-                if user_perms.User.Perms.seeOther:
-                    await perms(message, message.content.split()[1].replace("<", "").replace("@", "").replace("!", "").replace(">", ""), Utils.perms(message.content.split()[1].replace("<", "").replace("@", "").replace("!", "").replace(">", "")))
+                    if user_perms.User.Perms.seeOther:
+                        await perms(message, message.content.split()[1].replace("<", "").replace("@", "").replace("!", "").replace(">", ""), Utils.perms(message.content.split()[1].replace("<", "").replace("@", "").replace("!", "").replace(">", "")))
+
+                    else:
+                        await message.channel.send(":x: requires User.Perms.seeOther")
+
+            # 'set'
+            elif len(message.content.split()) == 4:
+                if message.content.split()[1].replace("<", "").replace("@", "").replace("!", "").replace(">", "").isnumeric():
+
+                    if message.content.split()[2] == "add" or message.content.split()[2] == "+":
+                        await set_(message, user_perms, True)
+
+                    elif message.content.split()[2] == "remove" or message.content.split()[2] == "-":
+                        await set_(message, user_perms, False)
 
                 else:
-                    await message.channel.send(":x: requires User.Perms.seeOther")
-
-        # 'set'
-        elif len(message.content.split()) == 4:
-            if message.content.split()[1].replace("<", "").replace("@", "").replace("!", "").replace(">", "").isnumeric():
-
-                if message.content.split()[2] == "add" or message.content.split()[2] == "+":
-                    await set_(message, user_perms, True)
-
-                elif message.content.split()[2] == "remove" or message.content.split()[2] == "-":
-                    await set_(message, user_perms, False)
+                    await message.channel.send(":x: Please enter a ID or a MENTION")
 
             else:
-                await message.channel.send(":x: Please enter a ID or a MENTION")
+                await message.channel.send(":x: Invalid Syntax")
 
+        # 'seeOwn'
         else:
-            await message.channel.send(":x: Invalid Syntax")
+            if user_perms.User.Perms.seeOwn:
+                await perms(message, str(message.author.id), user_perms)
 
-    # 'seeOwn'
-    else:
-        if user_perms.User.Perms.seeOwn:
-            await perms(message, str(message.author.id), user_perms)
+            else:
+                await message.channel.send(":x: requires User.Perms.seeOwn")
 
-        else:
-            await message.channel.send(":x: requires User.Perms.seeOwn")
+    except Exception as e:
+        super_log: discord.TextChannel = client.get_channel(Utils.DATA.IDs.Channels.Super_Log)
+
+        embed: discord.Embed = discord.Embed(title=__name__, description=e)
+
+        await super_log.send(embed=embed)
 
 
 def finder(data: Utils.AttrDict, path="") -> list:
