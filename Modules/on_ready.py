@@ -65,27 +65,27 @@ async def __main__(client: discord.Client, _event: int):
                 active = active[1:]
 
             msg = f"""
-    __**🌐 World Wide**__
-    ```md
-    COVID-19 Cases
-    ------------------------
-    {cases.decode():11}{f" < {'+' if int_cases-old_int_cases > 0 else '-'}{abs(int_cases-old_int_cases):5} >" if int_cases-old_int_cases and not first else ""}
-    
-    Deaths
-    ------------------------
-    {deaths.decode():11}{f" < {'+' if int_deaths-old_int_deaths > 0 else '-'}{abs(int_deaths-old_int_deaths):5} >" if int_deaths-old_int_deaths and not first else ""}
-    
-    Recovered
-    ------------------------
-    {recovered.decode():11}{f" < {'+' if int_recovered-old_int_recovered > 0 else '-'}{abs(int_recovered-old_int_recovered):5} >" if int_recovered-old_int_recovered and not first else ""}
-    
-    Active
-    ------------------------
-    {active:11}{f" < {'+' if int_active-old_int_active > 0 else '-'}{abs(int_active-old_int_active):5} >" if int_active-old_int_active and not first else ""}
-    
-    > UTC {datetime.utcnow().date()} {datetime.utcnow().hour}:{"0"+str(datetime.utcnow().minute) if datetime.utcnow().minute < 10 else datetime.utcnow().minute}```
-    @here is the source: <{url}> :)
-    """
+__**🌐 World Wide**__
+```md
+COVID-19 Cases
+------------------------
+{cases.decode():11}{f" < {'+' if int_cases-old_int_cases > 0 else '-'}{abs(int_cases-old_int_cases):5} >" if int_cases-old_int_cases and not first else ""}
+
+Deaths
+------------------------
+{deaths.decode():11}{f" < {'+' if int_deaths-old_int_deaths > 0 else '-'}{abs(int_deaths-old_int_deaths):5} >" if int_deaths-old_int_deaths and not first else ""}
+
+Recovered
+------------------------
+{recovered.decode():11}{f" < {'+' if int_recovered-old_int_recovered > 0 else '-'}{abs(int_recovered-old_int_recovered):5} >" if int_recovered-old_int_recovered and not first else ""}
+
+Active
+------------------------
+{active:11}{f" < {'+' if int_active-old_int_active > 0 else '-'}{abs(int_active-old_int_active):5} >" if int_active-old_int_active and not first else ""}
+
+> UTC {datetime.utcnow().date()} {datetime.utcnow().hour}:{"0"+str(datetime.utcnow().minute) if datetime.utcnow().minute < 10 else datetime.utcnow().minute}```
+@here is the source: <{url}> :)
+"""
 
             await message.edit(content=msg)
 
