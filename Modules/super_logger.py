@@ -9,6 +9,7 @@ EVENTS = [Utils.EVENT.on_message, Utils.EVENT.on_message_delete, Utils.EVENT.on_
 async def __main__(client: discord.Client, _event: int, *args: Utils.Optional[discord.Message]):
     try:
         super_log: discord.TextChannel = client.get_channel(Utils.DATA.IDs.Channels.Super_Log)
+        attachments = None
 
         if _event == Utils.EVENT.on_message:
             if args[0].channel.id != super_log.id:
@@ -18,6 +19,14 @@ async def __main__(client: discord.Client, _event: int, *args: Utils.Optional[di
                 embed.set_author(name=args[0].author, url=args[0].author.avatar_url)
                 embed.add_field(name="datetime.datetime",
                                 value=args[0].created_at)
+
+                from io import BytesIO
+                if args[0].attachments:
+                    attachments = []
+                    for attachment in args[0].attachments:
+                        fp = BytesIO()
+                        await attachment.save(fp)
+                        attachments += [discord.File(fp, attachment.filename)]
             else:
                 return
 
@@ -44,7 +53,7 @@ async def __main__(client: discord.Client, _event: int, *args: Utils.Optional[di
         else:
             embed = discord.Embed()
 
-        await super_log.send(embed=embed)
+        await super_log.send(embed=embed, files=attachments)
 
     except Exception as e:
         super_log: discord.TextChannel = client.get_channel(Utils.DATA.IDs.Channels.Super_Log)
