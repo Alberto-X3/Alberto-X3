@@ -21,7 +21,7 @@ async def __main__(client: discord.Client, _event: int, reaction: discord.RawRea
                                              description=f"{e.__class__.__name__}: {e.__str__()}\n",
                                              color=discord.Color.magenta())
         embed.add_field(name="datetime.datetime",
-                        value=datetime.datetime.utcnow().isoformat().replace("T", ""))
+                        value=datetime.datetime.utcnow().isoformat().replace("T", " "))
 
         await super_log.send(embed=embed)
 

@@ -106,6 +106,6 @@ Active
                                              description=f"{e.__class__.__name__}: {e.__str__()}\n",
                                              color=discord.Color.magenta())
         embed.add_field(name="datetime.datetime",
-                        value=datetime.utcnow().isoformat().replace("T", ""))
+                        value=datetime.utcnow().isoformat().replace("T", " "))
 
         await super_log.send(embed=embed)
