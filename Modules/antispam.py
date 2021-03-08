@@ -33,6 +33,6 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
                                              color=discord.Color.magenta())
 
         embed.add_field(name="datetime.datetime",
-                        value=datetime.datetime.utcnow().isoformat())
+                        value=datetime.datetime.utcnow().isoformat().replace("T", ""))
 
         await super_log.send(embed=embed)
