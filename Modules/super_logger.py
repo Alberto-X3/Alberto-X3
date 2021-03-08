@@ -56,10 +56,14 @@ async def __main__(client: discord.Client, _event: int, *args: Utils.Optional[di
         await super_log.send(embed=embed, files=attachments)
 
     except Exception as e:
+        import datetime
         super_log: discord.TextChannel = client.get_channel(Utils.DATA.IDs.Channels.Super_Log)
 
         embed: discord.Embed = discord.Embed(title=__name__,
                                              description=f"{e.__class__.__name__}: {e.__str__()}\n",
                                              color=discord.Color.magenta())
+
+        embed.add_field(name="datetime.datetime",
+                        value=datetime.datetime.utcnow().isoformat())
 
         await super_log.send(embed=embed)
