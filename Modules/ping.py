@@ -16,7 +16,6 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
         await message.channel.send(f"Pong 🏓\n> API latency: {api} seconds\n> Message latency: {msg} seconds")
 
     except Exception as e:
-        import datetime
         super_log: discord.TextChannel = client.get_channel(Utils.DATA.IDs.Channels.Super_Log)
 
         embed: discord.Embed = discord.Embed(title=__name__,

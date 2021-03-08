@@ -20,7 +20,6 @@ async def __main__(client: discord.Client, _event: int, member: discord.Member):
         await Utils.Logger(channel=await client.fetch_channel(Utils.DATA.IDs.Channels.Logs)).join(user=user)
 
     except Exception as e:
-        import datetime
         super_log: discord.TextChannel = client.get_channel(Utils.DATA.IDs.Channels.Super_Log)
 
         embed: discord.Embed = discord.Embed(title=__name__,
