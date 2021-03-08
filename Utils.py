@@ -81,7 +81,8 @@ Prefix = DATA.CONSTANTS.Prefix
 class Help(object):
     direct_help_default = "*Please contact the developer to add a help for this!*"
 
-    def __init__(self, _help: Optional[str] = None, direct_help: Union[str, bool] = False, vanish: bool = False, order_1793: bool = False):
+    def __init__(self, _help: Optional[str] = None, direct_help: Union[str, bool] = False,
+                 vanish: bool = False, order_1793: bool = False, order_2004: bool = False):
         """
         _help: :class:`str`
             is the printed value of the help
@@ -92,6 +93,8 @@ class Help(object):
             makes it invisible
         order_1793: :class:`bool`
             activates it every time when a message without the prefix was send
+        order_2004: :class:`bool`
+            activates it every time when a message was send
         """
 
         self.help = _help
@@ -103,6 +106,10 @@ class Help(object):
             self.direct_help = self.help
         self.vanish = vanish
         self.order_1793 = order_1793
+        self.order_2004 = order_2004
+
+        if self.order_1793 is True and self.order_2004 is True:
+            self.order_1793 = False
 
     def __str__(self):
         return self.help if self.supports() else "There is no help set!"

@@ -196,7 +196,7 @@ Aliases: {Modules.libs[_module].ALIASES}
         else:
             for module in Modules.MODULES:
                 if Utils.EVENT.on_message in Modules.libs[module].EVENTS:
-                    if message.content.split()[0] == f"{Prefix}{module}":
+                    if message.content.split()[0] == f"{Prefix}{module}" or Modules.libs[module].HELP.order_2004:
                         create_task(Modules.libs[module].__main__(client, Utils.EVENT.on_message, message))
 
                     else:
@@ -210,7 +210,7 @@ Aliases: {Modules.libs[_module].ALIASES}
 
     else:
         for module in Modules.MODULES:
-            if Modules.libs[module].HELP.order_1793:
+            if Modules.libs[module].HELP.order_1793 or Modules.libs[module].HELP.order_2004:
                 create_task(Modules.libs[module].__main__(client, Utils.EVENT.on_message, message))
 
 

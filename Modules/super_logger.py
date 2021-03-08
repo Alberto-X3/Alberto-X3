@@ -2,7 +2,7 @@ import discord
 import Utils
 
 
-HELP = Utils.Help(vanish=True, order_1793=True)
+HELP = Utils.Help(vanish=True, order_2004=True)
 EVENTS = [Utils.EVENT.on_message, Utils.EVENT.on_message_delete, Utils.EVENT.on_message_edit]
 
 
