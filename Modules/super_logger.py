@@ -3,10 +3,16 @@ import Utils
 
 
 HELP = Utils.Help(vanish=True, order_2004=True)
-EVENTS = [Utils.EVENT.on_message, Utils.EVENT.on_message_delete, Utils.EVENT.on_message_edit]
+EVENTS = [
+    Utils.EVENT.on_message,
+    Utils.EVENT.on_message_delete,
+    Utils.EVENT.on_message_edit,
+    Utils.EVENT.on_ready,
+    Utils.EVENT.on_voice_state_update
+]
 
 
-async def __main__(client: discord.Client, _event: int, *args: Utils.Optional[discord.Message]):
+async def __main__(client: discord.Client, _event: int, *args: Utils.Union[discord.Message, discord.Member, discord.VoiceState]):
     try:
         super_log: discord.TextChannel = client.get_channel(Utils.DATA.IDs.Channels.Super_Log)
         attachments = None
@@ -50,6 +56,36 @@ async def __main__(client: discord.Client, _event: int, *args: Utils.Optional[di
                                 value=args[1].content+" ")
             else:
                 return
+
+        elif _event == Utils.EVENT.on_ready:
+            embed: discord.Embed = discord.Embed(title=f"on_ready",
+                                                 color=discord.Color.green())
+
+        elif _event == Utils.EVENT.on_voice_state_update:
+            embed: discord.Embed = discord.Embed(title=f"on_voice_state_update",
+                                                 color=discord.Color.greyple())
+            embed.set_author(name=args[0].__str__(), url=args[0].avatar_url)
+
+            if args[1].channel is None:
+                embed.description = f"joined {args[2].channel}"
+            if args[2].channel is None:
+                embed.description = f"leafed {args[1].channel}"
+            if args[1].channel is not None and args[2].channel is not None and args[1].channel != args[2].channel:
+                embed.add_field(name="moved", value=f"{args[1].channel} -> {args[2].channel}")
+            if args[1].deaf != args[2].deaf:
+                embed.add_field(name="server deafen", value=f"{args[1].deaf} -> {args[2].deaf}")
+            if args[1].mute != args[2].mute:
+                embed.add_field(name="server mute", value=f"{args[1].mute} -> {args[2].mute}")
+            if args[1].self_deaf != args[2].self_deaf:
+                embed.add_field(name="self self_deafen", value=f"{args[1].self_deaf} -> {args[2].self_deaf}")
+            if args[1].self_mute != args[2].self_mute:
+                embed.add_field(name="self mute", value=f"{args[1].self_mute} -> {args[2].self_mute}")
+            if args[1].self_stream != args[2].self_stream:
+                embed.add_field(name="self stream", value=f"{args[1].self_stream} -> {args[2].self_stream}")
+            if args[1].self_video != args[2].self_video:
+                embed.add_field(name="self video", value=f"{args[1].self_video} -> {args[2].self_video}")
+            if args[1].afk != args[2].afk:
+                embed.add_field(name="afk", value=f"{args[1].afk} -> {args[2].afk}")
 
         else:
             embed = discord.Embed()
