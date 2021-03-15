@@ -12,7 +12,9 @@ async def __main__(client: discord.Client, _event: int, *args: Utils.Optional[di
         attachments = None
 
         if _event == Utils.EVENT.on_message:
+
             if args[0].channel.id != super_log.id:
+                raise SyntaxError("test...")
                 embed: discord.Embed = discord.Embed(title=f"on_message | <{args[0].jump_url}>",
                                                      description=args[0].content,
                                                      color=discord.Color.gold())
@@ -56,14 +58,17 @@ async def __main__(client: discord.Client, _event: int, *args: Utils.Optional[di
         await super_log.send(embed=embed, files=attachments)
 
     except Exception as e:
-        import datetime
-        super_log: discord.TextChannel = client.get_channel(Utils.DATA.IDs.Channels.Super_Log)
+        from discord.utils import snowflake_time
 
+        super_log: discord.TextChannel = client.get_channel(Utils.DATA.IDs.Channels.Super_Log)
         embed: discord.Embed = discord.Embed(title=__name__,
                                              description=f"{e.__class__.__name__}: {e.__str__()}\n",
                                              color=discord.Color.magenta())
 
-        embed.add_field(name="datetime.datetime",
-                        value=datetime.datetime.utcnow().isoformat().replace("T", " "))
+        message: discord.Message = await super_log.send(embed=embed)
 
-        await super_log.send(embed=embed)
+        embed.add_field(name="datetime.datetime",
+                        value=snowflake_time(message.id).__str__())
+        await message.edit(embed=embed)
+        await message.pin()
+        await super_log.send(f"<@&{820974562770550816}>", delete_after=0)
