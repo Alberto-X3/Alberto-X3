@@ -14,7 +14,6 @@ async def __main__(client: discord.Client, _event: int, *args: Utils.Optional[di
         if _event == Utils.EVENT.on_message:
 
             if args[0].channel.id != super_log.id:
-                raise SyntaxError("test...")
                 embed: discord.Embed = discord.Embed(title=f"on_message | <{args[0].jump_url}>",
                                                      description=args[0].content,
                                                      color=discord.Color.gold())
