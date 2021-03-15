@@ -18,6 +18,7 @@ async def __main__(client: discord.Client, _event: int, *args: Utils.Union[disco
         attachments = None
 
         if _event == Utils.EVENT.on_message:
+            datetime_edit = False
 
             if args[0].channel.id != super_log.id:
                 embed: discord.Embed = discord.Embed(title=f"on_message | <{args[0].jump_url}>",
@@ -38,6 +39,7 @@ async def __main__(client: discord.Client, _event: int, *args: Utils.Union[disco
                 return
 
         elif _event == Utils.EVENT.on_message_delete:
+            datetime_edit = False
             embed: discord.Embed = discord.Embed(title=f"on_message_delete | <{args[0].jump_url}>",
                                                  description=args[0].content+" ",
                                                  color=discord.Color.gold())
@@ -46,6 +48,7 @@ async def __main__(client: discord.Client, _event: int, *args: Utils.Union[disco
                             value=args[0].created_at)
 
         elif _event == Utils.EVENT.on_message_edit:
+            datetime_edit = False
             if args[0].author.id != client.user.id:
                 embed: discord.Embed = discord.Embed(title=f"on_message_edit | <{args[0].jump_url}>",
                                                      color=discord.Color.gold())
@@ -58,10 +61,12 @@ async def __main__(client: discord.Client, _event: int, *args: Utils.Union[disco
                 return
 
         elif _event == Utils.EVENT.on_ready:
+            datetime_edit = True
             embed: discord.Embed = discord.Embed(title=f"on_ready",
                                                  color=discord.Color.green())
 
         elif _event == Utils.EVENT.on_voice_state_update:
+            datetime_edit = True
             embed: discord.Embed = discord.Embed(title=f"on_voice_state_update",
                                                  color=discord.Color.greyple())
             embed.set_author(name=args[0].__str__(), url=args[0].avatar_url)
@@ -88,9 +93,17 @@ async def __main__(client: discord.Client, _event: int, *args: Utils.Union[disco
                 embed.add_field(name="afk", value=f"{args[1].afk} -> {args[2].afk}")
 
         else:
+            datetime_edit = True
             embed = discord.Embed()
 
-        await super_log.send(embed=embed, files=attachments)
+        message: discord.Message = await super_log.send(embed=embed, files=attachments)
+
+        if datetime_edit:
+            from discord.utils import snowflake_time
+            embed.add_field(name="datetime.datetime",
+                            value=snowflake_time(message.id).__str__(),
+                            inline=False)
+            await message.edit(embed=embed)
 
     except Exception as e:
         from discord.utils import snowflake_time
