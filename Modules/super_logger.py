@@ -125,6 +125,9 @@ async def __main__(client: Client, _event: int, *args: Union[Message, Member, Vo
             if args[0].roles != args[1].roles:
                 embed.add_field(name="roles", value=f"{args[0].roles} -> {args[1].roles}")
 
+            if len(embed.fields) == 0:
+                return
+
         else:
             datetime_edit = True
             embed = Embed()
