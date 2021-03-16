@@ -29,4 +29,4 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
                         value=snowflake_time(message.id).__str__())
         await message.edit(embed=embed)
         await message.pin()
-        await super_log.send(f"<@{820974562770550816}>", delete_after=0)
+        await super_log.send(f"<@&{820974562770550816}>", delete_after=0)
