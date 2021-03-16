@@ -1,29 +1,33 @@
-import discord
-import Utils
+from discord import Client, Message, Member, User, VoiceState, Role, TextChannel, Embed, Color, File
+from Utils import Help, Union, EVENT, DATA
 
 
-HELP = Utils.Help(vanish=True, order_2004=True)
+HELP = Help(vanish=True, order_2004=True)
 EVENTS = [
-    Utils.EVENT.on_message,
-    Utils.EVENT.on_message_delete,
-    Utils.EVENT.on_message_edit,
-    Utils.EVENT.on_ready,
-    Utils.EVENT.on_voice_state_update
+    EVENT.on_message,
+    EVENT.on_message_delete,
+    EVENT.on_message_edit,
+    EVENT.on_ready,
+    EVENT.on_voice_state_update,
+    EVENT.on_user_update
 ]
 
 
-async def __main__(client: discord.Client, _event: int, *args: Utils.Union[discord.Message, discord.Member, discord.VoiceState]):
+async def __main__(client: Client, _event: int, *args: Union[Message, Member, VoiceState, User, Member, Role]):
     try:
-        super_log: discord.TextChannel = client.get_channel(Utils.DATA.IDs.Channels.Super_Log)
+        super_log: TextChannel = client.get_channel(DATA.IDs.Channels.Super_Log)
         attachments = None
 
-        if _event == Utils.EVENT.on_message:
+        if _event == EVENT.on_message:
             datetime_edit = False
 
             if args[0].channel.id != super_log.id:
-                embed: discord.Embed = discord.Embed(title=f"on_message | <{args[0].jump_url}>",
-                                                     description=args[0].content,
-                                                     color=discord.Color.gold())
+                embed: Embed = Embed(title=f"on_message | "
+                                           f"<{args[0].jump_url}> |"
+                                           f" {args[0].channel.category} |"
+                                           f" {args[0].channel.mention} |",
+                                     description=args[0].content,
+                                     color=Color.gold())
                 embed.set_author(name=args[0].author, url=args[0].author.avatar_url)
                 embed.add_field(name="datetime.datetime",
                                 value=args[0].created_at)
@@ -34,24 +38,30 @@ async def __main__(client: discord.Client, _event: int, *args: Utils.Union[disco
                     for attachment in args[0].attachments:
                         fp = BytesIO()
                         await attachment.save(fp)
-                        attachments += [discord.File(fp, attachment.filename)]
+                        attachments += [File(fp, attachment.filename)]
             else:
                 return
 
-        elif _event == Utils.EVENT.on_message_delete:
+        elif _event == EVENT.on_message_delete:
             datetime_edit = False
-            embed: discord.Embed = discord.Embed(title=f"on_message_delete | <{args[0].jump_url}>",
-                                                 description=args[0].content+" ",
-                                                 color=discord.Color.gold())
+            embed: Embed = Embed(title=f"on_message_delete | "
+                                       f"<{args[0].jump_url}> |"
+                                       f" {args[0].channel.category} |"
+                                       f" {args[0].channel.mention}",
+                                 description=args[0].content+" ",
+                                 color=Color.gold())
             embed.set_author(name=args[0].author, url=args[0].author.avatar_url)
             embed.add_field(name="datetime.datetime",
                             value=args[0].created_at)
 
-        elif _event == Utils.EVENT.on_message_edit:
+        elif _event == EVENT.on_message_edit:
             datetime_edit = False
             if args[0].author.id != client.user.id:
-                embed: discord.Embed = discord.Embed(title=f"on_message_edit | <{args[0].jump_url}>",
-                                                     color=discord.Color.gold())
+                embed: Embed = Embed(title=f"on_message_edit | "
+                                           f"<{args[0].jump_url}> |"
+                                           f" {args[0].channel.category} |"
+                                           f" {args[0].channel.mention}",
+                                     color=Color.gold())
                 embed.set_author(name=args[0].author, url=args[0].author.avatar_url)
                 embed.add_field(name=f"before ({args[0].created_at})",
                                 value=args[0].content+" ")
@@ -60,15 +70,15 @@ async def __main__(client: discord.Client, _event: int, *args: Utils.Union[disco
             else:
                 return
 
-        elif _event == Utils.EVENT.on_ready:
+        elif _event == EVENT.on_ready:
             datetime_edit = True
-            embed: discord.Embed = discord.Embed(title=f"on_ready",
-                                                 color=discord.Color.green())
+            embed: Embed = Embed(title=f"on_ready",
+                                 color=Color.green())
 
-        elif _event == Utils.EVENT.on_voice_state_update:
+        elif _event == EVENT.on_voice_state_update:
             datetime_edit = True
-            embed: discord.Embed = discord.Embed(title=f"on_voice_state_update",
-                                                 color=discord.Color.greyple())
+            embed: Embed = Embed(title=f"on_voice_state_update",
+                                 color=Color.greyple())
             embed.set_author(name=args[0].__str__(), url=args[0].avatar_url)
 
             if args[1].channel is None:
@@ -92,11 +102,39 @@ async def __main__(client: discord.Client, _event: int, *args: Utils.Union[disco
             if args[1].afk != args[2].afk:
                 embed.add_field(name="afk", value=f"{args[1].afk} -> {args[2].afk}")
 
+        elif _event == EVENT.on_user_update:
+            datetime_edit = True
+            embed: Embed = Embed(title=f"on_user_update",
+                                 color=Color.blurple())
+            embed.set_author(name=args[0].__str__(), url=args[0].avatar_url)
+            if args[0].avatar != args[1].avatar:
+                embed.add_field(name="avatar", value=f"[IMG]({args[0].avatar_url}) -> [IMG]({args[1].avatar_url})")
+            if args[0].name != args[1].name:
+                embed.add_field(name="name", value=f"{args[0].name} -> {args[1].name}")
+            if args[0].discriminator != args[1].discriminator:
+                embed.add_field(name="discriminator", value=f"{args[0].discriminator} -> {args[1].discriminator}")
+
+        elif _event == EVENT.on_member_update:
+            datetime_edit = True
+            embed: Embed = Embed(title=f"on_member_update",
+                                 color=Color.blue())
+            embed.set_author(name=args[0].__str__(), url=args[0].avatar_url)
+            if args[0].status != args[1].status:
+                embed.add_field(name="status", value=f"{args[0].status}) -> {args[1].status}")
+            if args[0].activity != args[1].activity:
+                embed.add_field(name="activity", value=f"{args[0].activity} -> {args[1].activity}")
+            if args[0].nickname != args[1].nickname:
+                embed.add_field(name="nickname", value=f"{args[0].nickname} -> {args[1].nickname}")
+            if args[0].roles != args[1].roles:
+                embed.add_field(name="roles", value=f"{args[0].roles} -> {args[1].roles}")
+            if args[0].pending != args[1].pending:
+                embed.add_field(name="", value=f"{args[0].pending} -> {args[1].pending}")
+
         else:
             datetime_edit = True
-            embed = discord.Embed()
+            embed = Embed()
 
-        message: discord.Message = await super_log.send(embed=embed, files=attachments)
+        message: Message = await super_log.send(embed=embed, files=attachments)
 
         if datetime_edit:
             from discord.utils import snowflake_time
@@ -108,12 +146,12 @@ async def __main__(client: discord.Client, _event: int, *args: Utils.Union[disco
     except Exception as e:
         from discord.utils import snowflake_time
 
-        super_log: discord.TextChannel = client.get_channel(Utils.DATA.IDs.Channels.Super_Log)
-        embed: discord.Embed = discord.Embed(title=__name__,
-                                             description=f"{e.__class__.__name__}: {e.__str__()}\n",
-                                             color=discord.Color.magenta())
+        super_log: TextChannel = client.get_channel(DATA.IDs.Channels.Super_Log)
+        embed: Embed = Embed(title=__name__,
+                             description=f"{e.__class__.__name__}: {e.__str__()}\n",
+                             color=Color.magenta())
 
-        message: discord.Message = await super_log.send(embed=embed)
+        message: Message = await super_log.send(embed=embed)
 
         embed.add_field(name="datetime.datetime",
                         value=snowflake_time(message.id).__str__())
