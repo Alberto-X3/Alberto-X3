@@ -9,7 +9,8 @@ EVENTS = [
     EVENT.on_message_edit,
     EVENT.on_ready,
     EVENT.on_voice_state_update,
-    EVENT.on_user_update
+    EVENT.on_user_update,
+    EVENT.on_member_update
 ]
 
 
