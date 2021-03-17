@@ -1,5 +1,5 @@
 from discord import Client, Message, Member, User, VoiceState, Role, TextChannel, Embed, Color, File
-from Utils import Help, Union, EVENT, DATA
+from Utils import Help, Union, EVENT, DATA, send_exception
 
 
 HELP = Help(vanish=True, order_2004=True)
@@ -156,17 +156,4 @@ async def __main__(client: Client, _event: int, *args: Union[Message, Member, Vo
             await message.edit(embed=embed)
 
     except Exception as e:
-        from discord.utils import snowflake_time
-
-        super_log: TextChannel = client.get_channel(DATA.IDs.Channels.Super_Log)
-        embed: Embed = Embed(title=__name__,
-                             description=f"{e.__class__.__name__}: {e.__str__()}\n",
-                             color=Color.magenta())
-
-        message: Message = await super_log.send(embed=embed)
-
-        embed.add_field(name="datetime.datetime",
-                        value=snowflake_time(message.id).__str__())
-        await message.edit(embed=embed)
-        await message.pin()
-        await super_log.send(f"<@&{820974562770550816}>", delete_after=0)
+        await send_exception(client=client, exception=e, source_name=__name__)
