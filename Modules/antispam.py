@@ -10,7 +10,7 @@ EVENTS = [Utils.EVENT.on_message]
 
 async def __main__(client: discord.Client, _event: int, message: discord.Message):
     try:
-        if message.author.bot:
+        if message.author.bot or message.author.id in Utils.DATA.IDs.Admins:
             return
 
         async for message_ in message.channel.history(limit=20, before=message.created_at):
