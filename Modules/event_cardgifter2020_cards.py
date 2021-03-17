@@ -2,7 +2,7 @@ import discord
 import Utils
 
 
-HELP = Utils.Help(order_2004=True)
+HELP = Utils.Help(order_2004=True, vanish=True)
 EVENTS = [Utils.EVENT.on_message]
 ALIASES = []
 
