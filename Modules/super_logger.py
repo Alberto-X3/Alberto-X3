@@ -27,7 +27,7 @@ async def __main__(client: Client, _event: int, *args: Union[Message, Member, Vo
                                            f"<{args[0].jump_url}> |"
                                            f" {args[0].channel.category} |"
                                            f" {args[0].channel.mention}",
-                                     description=args[0].content+" ",
+                                     description=args[0].content+(" | EMBED" if args[0].embeds else "")+(" | ATTACHMENT" if args[0].attachments else ""),
                                      color=Color.gold())
                 embed.set_author(name=args[0].author, url=args[0].author.avatar_url)
                 embed.add_field(name="datetime.datetime",
@@ -49,7 +49,7 @@ async def __main__(client: Client, _event: int, *args: Union[Message, Member, Vo
                                        f"<{args[0].jump_url}> |"
                                        f" {args[0].channel.category} |"
                                        f" {args[0].channel.mention}",
-                                 description=args[0].content+" ",
+                                 description=args[0].content+(" | EMBED" if args[0].embeds else "")+(" | ATTACHMENT" if args[0].attachments else ""),
                                  color=Color.gold())
             embed.set_author(name=args[0].author, url=args[0].author.avatar_url)
             embed.add_field(name="datetime.datetime",
@@ -65,9 +65,9 @@ async def __main__(client: Client, _event: int, *args: Union[Message, Member, Vo
                                      color=Color.gold())
                 embed.set_author(name=args[0].author, url=args[0].author.avatar_url)
                 embed.add_field(name=f"before ({args[0].created_at})",
-                                value=args[0].content+" ")
+                                value=args[0].content+(" | EMBED" if args[0].embeds else "")+(" | ATTACHMENT" if args[0].attachments else ""))
                 embed.add_field(name=f"after ({args[0].edited_at})",
-                                value=args[1].content+" ")
+                                value=args[1].content+(" | EMBED" if args[0].embeds else "")+(" | ATTACHMENT" if args[0].attachments else ""))
             else:
                 return
 
