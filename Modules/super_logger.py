@@ -26,7 +26,7 @@ async def __main__(client: Client, _event: int, *args: Union[Message, Member, Vo
                 embed: Embed = Embed(title=f"on_message | "
                                            f"<{args[0].jump_url}> |" +
                                            (f" {args[0].channel.category} |"
-                                            f" {args[0].channel.mention}" if hasattr(args[0].channel, "category") else " DM |"),
+                                            f" {args[0].channel.mention}" if hasattr(args[0].channel, "category") else " DM"),
                                      description=args[0].content+(" | EMBED" if args[0].embeds else "")+(" | ATTACHMENT" if args[0].attachments else ""),
                                      color=Color.gold())
                 embed.set_author(name=args[0].author, url=args[0].author.avatar_url)
@@ -48,7 +48,7 @@ async def __main__(client: Client, _event: int, *args: Union[Message, Member, Vo
             embed: Embed = Embed(title=f"on_message_delete | "
                                        f"<{args[0].jump_url}> |" +
                                            (f" {args[0].channel.category} |"
-                                            f" {args[0].channel.mention}" if hasattr(args[0].channel, "category") else " DM |"),
+                                            f" {args[0].channel.mention}" if hasattr(args[0].channel, "category") else " DM"),
                                  description=args[0].content+(" | EMBED" if args[0].embeds else "")+(" | ATTACHMENT" if args[0].attachments else ""),
                                  color=Color.gold())
             embed.set_author(name=args[0].author, url=args[0].author.avatar_url)
@@ -61,7 +61,7 @@ async def __main__(client: Client, _event: int, *args: Union[Message, Member, Vo
                 embed: Embed = Embed(title=f"on_message_edit | "
                                            f"<{args[0].jump_url}> |" +
                                            (f" {args[0].channel.category} |"
-                                            f" {args[0].channel.mention}" if hasattr(args[0].channel, "category") else " DM |"),
+                                            f" {args[0].channel.mention}" if hasattr(args[0].channel, "category") else " DM"),
                                      color=Color.gold())
                 embed.set_author(name=args[0].author, url=args[0].author.avatar_url)
                 embed.add_field(name=f"before ({args[0].created_at})",
