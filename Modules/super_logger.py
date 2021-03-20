@@ -123,21 +123,12 @@ async def __main__(client: Client, _event: int, *args: Union[Message, Member, Vo
             if args[0].nick != args[1].nick:
                 embed.add_field(name="nickname", value=f"{args[0].nick} -> {args[1].nick}")
             if args[0].roles != args[1].roles:
-                action = "?"
-                role = None
                 if len(args[0].roles) < len(args[1].roles):
-                    action = "+"
-                    for new_role in args[1].roles:
-                        if new_role not in args[0].roles:
-                            role = f"{new_role.name} {new_role.id}"
-                            break
+                    embed.add_field(name="role", value="\n".join([f"**+** `{role.name}` `{role.id}`" if role not in args[0].roles else [] for role in args[1].roles]))
                 if len(args[0].roles) > len(args[1].roles):
-                    action = "-"
-                    for old_role in args[0].roles:
-                        if old_role not in args[1].roles:
-                            role = f"{old_role.name} {old_role.id}"
-                            break
-                embed.add_field(name="role", value=f"{action} {role}")
+                    embed.add_field(name="role", value="\n".join([f"**-** `{role.name}` `{role.id}`" if role not in args[1].roles else [] for role in args[0].roles]))
+                if len(args[0].roles) == len(args[1].roles):
+                    embed.add_field(name="role", value="***__PLEASE CONTACT A <@820974562770550816>!!!__***")
 
             if len(embed.fields) == 0:
                 return
