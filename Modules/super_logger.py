@@ -131,9 +131,9 @@ async def __main__(client: Client, _event: int, *args: Union[Message, Member, Vo
                     embed.add_field(name="role", value="\n".join(meta))
                 if len(args[0].roles) > len(args[1].roles):
                     meta = list()
-                    for role in args[1].roles:
-                        if role not in args[0].roles:
-                            meta.append(f"**+** `{role.name}` `{role.id}`")
+                    for role in args[0].roles:
+                        if role not in args[1].roles:
+                            meta.append(f"**-** `{role.name}` `{role.id}`")
                     embed.add_field(name="role", value="\n".join(meta))
                 if len(args[0].roles) == len(args[1].roles):
                     embed.add_field(name="role", value="***__PLEASE CONTACT A <@820974562770550816>!!!__***")
