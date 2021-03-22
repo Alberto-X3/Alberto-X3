@@ -39,7 +39,17 @@ async def __main__(client: Client, _event: int, *args: Union[Message, Member, Vo
                     for attachment in args[0].attachments:
                         fp = BytesIO()
                         await attachment.save(fp)
-                        attachments += [File(fp, attachment.filename)]
+                        attachments.append(File(fp, attachment.filename))
+
+                from json import dump
+                if args[0].embeds:
+                    attachments = []
+                    for i, attachment in enumerate(args[0].embeds):
+                        with open("_.log", "w") as fp:
+                            dump(attachment.to_dict(), fp, indent=2)
+                        with open("_.log", "rb") as fp:
+                            attachments.append(File(fp, f"EMBED-{i}.json"))
+
             else:
                 return
 
@@ -55,6 +65,23 @@ async def __main__(client: Client, _event: int, *args: Union[Message, Member, Vo
             embed.add_field(name="datetime.datetime",
                             value=args[0].created_at)
 
+            from io import BytesIO
+            if args[0].attachments:
+                attachments = []
+                for attachment in args[0].attachments:
+                    fp = BytesIO()
+                    await attachment.save(fp)
+                    attachments.append(File(fp, attachment.filename))
+
+            from json import dump
+            if args[0].embeds:
+                attachments = []
+                for i, attachment in enumerate(args[0].embeds):
+                    with open("_.log", "w") as fp:
+                        dump(attachment.to_dict(), fp, indent=2)
+                    with open("_.log", "rb") as fp:
+                        attachments.append(File(fp, f"EMBED-{i}.json"))
+
         elif _event == EVENT.on_message_edit:
             datetime_edit = False
             if args[0].author.id != client.user.id:
@@ -68,6 +95,38 @@ async def __main__(client: Client, _event: int, *args: Union[Message, Member, Vo
                                 value=args[0].content+(" | EMBED" if args[0].embeds else "")+(" | ATTACHMENT" if args[0].attachments else ""))
                 embed.add_field(name=f"after ({args[0].edited_at})",
                                 value=args[1].content+(" | EMBED" if args[0].embeds else "")+(" | ATTACHMENT" if args[0].attachments else ""))
+
+                from io import BytesIO
+                if args[0].attachments:
+                    attachments = []
+                    for attachment in args[0].attachments:
+                        fp = BytesIO()
+                        await attachment.save(fp)
+                        attachments.append(File(fp, attachment.filename))
+
+                from json import dump
+                if args[0].embeds:
+                    attachments = []
+                    for i, attachment in enumerate(args[0].embeds):
+                        with open("_.log", "w") as fp:
+                            dump(attachment.to_dict(), fp, indent=2)
+                        with open("_.log", "rb") as fp:
+                            attachments.append(File(fp, f"EMBED-OLD-{i}.json"))
+
+                if args[1].attachments:
+                    attachments = []
+                    for attachment in args[1].attachments:
+                        fp = BytesIO()
+                        await attachment.save(fp)
+                        attachments.append(File(fp, attachment.filename))
+
+                if args[1].embeds:
+                    attachments = []
+                    for i, attachment in enumerate(args[1].embeds):
+                        with open("_.log", "w") as fp:
+                            dump(attachment.to_dict(), fp, indent=2)
+                        with open("_.log", "rb") as fp:
+                            attachments.append(File(fp, f"EMBED-NEW-{i}.json"))
             else:
                 return
 
