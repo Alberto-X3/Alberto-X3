@@ -17,7 +17,7 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
             message_: discord.Message
 
             if message_.author == message.author and not message_.author == client.user:
-                if message_.content == message.content:
+                if message_.content == message.content and message_.attachments == message.attachments and message_.embeds == message.embeds:
                     if message.created_at - message_.created_at > timedelta(minutes=30):
                         break
                     await message.delete()
