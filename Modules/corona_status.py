@@ -298,6 +298,10 @@ async def __main__(client: discord.Client, _event: int, reaction: discord.RawRea
 
                 await sleep((timedelta(minutes=1) - timedelta(seconds=datetime.utcnow().second,
                                                               microseconds=datetime.utcnow().microsecond)).total_seconds())
+
+    except KeyError:
+        pass
+
     except Exception as e:
         await Utils.send_exception(client=client, exception=e, source_name=__name__)
 
