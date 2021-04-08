@@ -26,5 +26,8 @@ async def __main__(client: discord.Client, _event: int, member: discord.Member,
 
                 await member.move_to(new_talk)
 
+    except discord.NotFound:
+        pass
+
     except Exception as e:
         await Utils.send_exception(client=client, exception=e, source_name=__name__)
