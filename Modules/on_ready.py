@@ -1,6 +1,7 @@
 import discord
 import Utils
 
+from typing import List
 from asyncio import sleep
 from datetime import datetime, timedelta
 import requests
@@ -36,7 +37,12 @@ async def __main__(client: discord.Client, _event: int):
         dis_recovered = 82
 
         first = True
-        old_int_cases = old_int_deaths = old_int_recovered = old_int_active = -1
+        old_list_cases = []
+        old_list_deaths = []
+        old_list_recovered = []
+        old_list_active = []
+        new_cases = new_deaths = new_recovered = new_active = 0
+
         while True:
 
             data: requests.Response = requests.get(url)
@@ -64,40 +70,67 @@ async def __main__(client: discord.Client, _event: int):
             if active.startswith(","):
                 active = active[1:]
 
+            history = len(old_list_cases)
+
+            old_list_cases = ut(old_list_cases, int_cases)
+            old_list_deaths = ut(old_list_deaths, int_deaths)
+            old_list_recovered = ut(old_list_recovered, int_recovered)
+            old_list_active = ut(old_list_active, int_active)
+
+            new_cases = dif(old_list_cases)
+            new_deaths = dif(old_list_deaths)
+            new_recovered = dif(old_list_recovered)
+            new_active = dif(old_list_active)
+
+            if first:
+                first = False
+
             msg = f"""
 __**🌐 World Wide**__
 ```md
 COVID-19 Cases
 ------------------------
-{cases.decode():11}{f" < {'+' if int_cases-old_int_cases > 0 else '-'}{abs(int_cases-old_int_cases):5} >" if int_cases-old_int_cases and not first else ""}
+{cases.decode():13}{
+    ('-' if new_cases < 0 else '+')+str(abs(new_cases)):7}
 
 Deaths
 ------------------------
-{deaths.decode():11}{f" < {'+' if int_deaths-old_int_deaths > 0 else '-'}{abs(int_deaths-old_int_deaths):5} >" if int_deaths-old_int_deaths and not first else ""}
+{deaths.decode():13}{
+    ('-' if new_deaths < 0 else '+') + str(abs(new_deaths)):7}
 
 Recovered
 ------------------------
-{recovered.decode():11}{f" < {'+' if int_recovered-old_int_recovered > 0 else '-'}{abs(int_recovered-old_int_recovered):5} >" if int_recovered-old_int_recovered and not first else ""}
+{recovered.decode():13}{
+    ('-' if new_recovered < 0 else '+') + str(abs(new_recovered)):7}
 
 Active
 ------------------------
-{active:11}{f" < {'+' if int_active-old_int_active > 0 else '-'}{abs(int_active-old_int_active):5} >" if int_active-old_int_active and not first else ""}
+{active:13}{
+    ('-' if new_active < 0 else '+') + str(abs(new_active)):7}
 
 > UTC {datetime.utcnow().date()} {datetime.utcnow().hour}:{"0"+str(datetime.utcnow().minute) if datetime.utcnow().minute < 10 else datetime.utcnow().minute}```
 @here is the source: <{url}> :)
+[`+`/`-` are the differences from the past {history} minutes]
 """
 
             await message.edit(content=msg)
-
-            old_int_cases = int_cases
-            old_int_deaths = int_deaths
-            old_int_recovered = int_recovered
-            old_int_active = int_active
-
-            if first:
-                first = False
 
             await sleep((timedelta(minutes=1)-timedelta(seconds=datetime.utcnow().second, microseconds=datetime.utcnow().microsecond)).total_seconds())
 
     except Exception as e:
         await Utils.send_exception(client=client, exception=e, source_name=__name__)
+
+
+def dif(obj: List[int]) -> int:
+    if len(obj) <= 1:
+        return 0
+    return obj[0] - obj[-1]
+
+
+def update_timeline(obj: List[int], value: int,
+                    max_len: int = 10) -> List[int]:
+    obj.insert(0, value)
+    return obj[:max_len]
+
+
+ut = update_timeline
