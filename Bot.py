@@ -6,6 +6,10 @@ import discord
 import Modules
 import Utils
 
+# to be sure, that there is a DB
+import levels_config_sqlite
+del levels_config_sqlite
+
 
 intents = discord.Intents.all()
 client = discord.Client(intents=intents)
