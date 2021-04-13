@@ -73,7 +73,8 @@ async def __main__(client: Client, _event: int, message: Message):
             lvl = int(xp ** formula) - 1
             await message.channel.send(
                 f"Congratulations __**{message.author.mention}**__!\n"
-                f"You are now __*Level {lvl}*__ 🥳🥳🥳")
+                f"You are now __*Level {lvl}*__ 🥳🥳🥳\n"
+                f"*`check your XP by using '{DATA.CONSTANTS.Prefix}lvl'`*")
 
         cursor.execute(f"UPDATE lvl SET level={lvl} WHERE user=={user}")
         cursor.execute(f"UPDATE lvl SET xp={xp} WHERE user=={user}")
