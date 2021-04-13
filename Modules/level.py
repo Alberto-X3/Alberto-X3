@@ -79,9 +79,16 @@ async def __main__(client: Client, _event: int, message: Message):
         # below is only without prefix and just leveling
 
         xp += choice(possible_xps)
+        old_lvl = lvl
+        lvl = int(xp ** formula) - 1
 
-        if lvl < int(xp ** formula) - 1:
-            lvl = int(xp ** formula) - 1
+        cursor.execute(f"UPDATE lvl SET level={lvl} WHERE user=={user}")
+        cursor.execute(f"UPDATE lvl SET xp={xp} WHERE user=={user}")
+
+        db.commit()
+        db.close()
+
+        if lvl != old_lvl:
             await client.get_channel(831625194803298314).send(
                 f"Congratulations __**{message.author.mention}**__!\n"
                 f"You are now __*Level {lvl}*__ 🥳🥳🥳\n")
@@ -89,12 +96,6 @@ async def __main__(client: Client, _event: int, message: Message):
             if str(lvl) in lvl_rewards:
                 reward: Role = message.guild.get_role(lvl_rewards[str(lvl)])
                 await message.author.add_role(reward, "Leveling reward")
-
-        cursor.execute(f"UPDATE lvl SET level={lvl} WHERE user=={user}")
-        cursor.execute(f"UPDATE lvl SET xp={xp} WHERE user=={user}")
-
-        db.commit()
-        db.close()
 
     except Exception as e:
         await send_exception(client=client, exception=e, source_name=__name__)
