@@ -1,4 +1,4 @@
-from discord import Embed, Client, Message
+from discord import Embed, Client, Message, Role
 from Utils import Help, EVENT, send_exception, DATA
 
 from sqlite3 import connect
@@ -19,6 +19,13 @@ free = "<:XP0:831578582026813480>"
 full = "<:XP1:831578621092691978>"
 len_bar = 20
 formula = 1/4.5
+
+lvl_rewards = {
+    "25": 831628612171071498,
+    "20": 831628364803997757,
+    "15": 831628201406627871,
+    "10": 831628459222237227
+}
 
 
 async def __main__(client: Client, _event: int, message: Message):
@@ -74,6 +81,10 @@ async def __main__(client: Client, _event: int, message: Message):
             await client.get_channel(831625194803298314).send(
                 f"Congratulations __**{message.author.mention}**__!\n"
                 f"You are now __*Level {lvl}*__ 🥳🥳🥳\n")
+
+            if str(lvl) in lvl_rewards:
+                reward: Role = message.guild.get_role(lvl_rewards[str(lvl)])
+                await message.author.add_role(reward, "Leveling reward")
 
         cursor.execute(f"UPDATE lvl SET level={lvl} WHERE user=={user}")
         cursor.execute(f"UPDATE lvl SET xp={xp} WHERE user=={user}")
