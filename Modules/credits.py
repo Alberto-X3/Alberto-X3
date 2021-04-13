@@ -8,12 +8,12 @@ ALIASES = ["c"]
 
 async def __main__(client: discord.Client, _event: int, message: discord.Message):
     try:
-        author = Utils.DATA.Author
-
         await message.channel.send(embed=discord.Embed(description=f"""
-    The Author is {author}
-    Modular Code: [here](https://github.com/AlbertUnruh/ModularDiscordPyBot)
+    ~~Modular Code: [here](https://github.com/AlbertUnruh/ModularDiscordPyBot)~~
     My Code: [here](https://github.com/AlbertUnruh/Alberto-X3)
+
+    source code by <@546320163276849162>
+    profile pictures by <@665288034274639873>
     """))
 
     except Exception as e:
