@@ -18,7 +18,7 @@ possible_xps = [3, 3,
 free = "<:XP0:831578582026813480>"
 full = "<:XP1:831578621092691978>"
 len_bar = 20
-formula = 1/5
+formula = 1/4.5
 
 
 async def __main__(client: Client, _event: int, message: Message):
@@ -71,10 +71,9 @@ async def __main__(client: Client, _event: int, message: Message):
 
         if lvl < int(xp ** formula) - 1:
             lvl = int(xp ** formula) - 1
-            await message.channel.send(
+            await client.get_channel(831625194803298314).send(
                 f"Congratulations __**{message.author.mention}**__!\n"
-                f"You are now __*Level {lvl}*__ 🥳🥳🥳\n"
-                f"*`check your XP by using '{DATA.CONSTANTS.Prefix}lvl'`*")
+                f"You are now __*Level {lvl}*__ 🥳🥳🥳\n")
 
         cursor.execute(f"UPDATE lvl SET level={lvl} WHERE user=={user}")
         cursor.execute(f"UPDATE lvl SET xp={xp} WHERE user=={user}")
