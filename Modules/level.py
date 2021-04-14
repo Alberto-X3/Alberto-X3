@@ -1,9 +1,9 @@
-from discord import Embed, Client, Message, Role, NotFound
-from Utils import Help, EVENT, send_exception, DATA, Prefix
+from discord import Embed, Client, Message, Role, NotFound, Member, User
+from Utils import Help, EVENT, send_exception, Prefix
 
 from sqlite3 import connect
 from random import choice
-from typing import Tuple, Dict
+from typing import Tuple, Dict, Union
 from datetime import datetime, timedelta
 
 
@@ -86,6 +86,7 @@ async def __main__(client: Client, _event: int, message: Message):
             return
 
         # below is only without prefix and just leveling
+        author: Union[Member, User] = message.author
 
         try:
             if recent[user]+latency > datetime.utcnow():
@@ -112,7 +113,7 @@ async def __main__(client: Client, _event: int, message: Message):
 
             if str(lvl) in lvl_rewards:
                 reward: Role = message.guild.get_role(lvl_rewards[str(lvl)])
-                await message.author.add_role(reward, "Leveling reward")
+                await author.add_roles(reward, "Leveling reward")
 
     except Exception as e:
         await send_exception(client=client, exception=e, source_name=__name__)
