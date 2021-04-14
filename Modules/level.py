@@ -33,9 +33,14 @@ recent: Dict[int, datetime] = {}
 
 async def __main__(client: Client, _event: int, message: Message):
     try:
-        if any((message.author.bot,
-                message.guild is None)):
+        if message.guild is None:
             return
+        if message.author.bot:
+            if message.nonce == 1793:
+                message.content += " 546320163276849162"
+            else:
+                return print("return")
+        print(message.nonce)
 
         try:
             user = int(message.content.split()[-1].replace("<", "")
@@ -60,7 +65,7 @@ async def __main__(client: Client, _event: int, message: Message):
 
         cursor.execute("SELECT * from lvl ORDER BY xp DESC LIMIT 10")
         rank = cursor.fetchall()
-        print(rank)
+
         ranking = {"inline": False,
                    "name": f"__Ranking #{len(rank)}:__",
                    "value": "\n".join(f"LVL **{l}**; "
@@ -104,7 +109,7 @@ async def __main__(client: Client, _event: int, message: Message):
                 return
         except KeyError:
             pass
-
+        return print(f"+ {user} DISABLED AT TH MOMENT!!!")
         recent[user] = datetime.utcnow()
 
         xp += choice(possible_xps)
