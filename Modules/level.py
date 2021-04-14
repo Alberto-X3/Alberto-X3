@@ -1,5 +1,5 @@
 from discord import Embed, Client, Message, Role
-from Utils import Help, EVENT, send_exception, DATA
+from Utils import Help, EVENT, send_exception, DATA, Prefix
 
 from sqlite3 import connect
 from random import choice
@@ -7,7 +7,7 @@ from typing import Tuple, Dict
 from datetime import datetime, timedelta
 
 
-HELP = Help("shows you your XP", order_1793=True)
+HELP = Help("shows you your XP", f"{Prefix}level (iD/ping)", order_1793=True)
 EVENTS = [EVENT.on_message]
 ALIASES = ["lvl", "rank"]
 
@@ -37,7 +37,14 @@ async def __main__(client: Client, _event: int, message: Message):
                 message.guild is None)):
             return
 
-        user = message.author.id
+        try:
+            user = int(message.content.split()[-1].replace("<", "")
+                                                  .replace("@", "")
+                                                  .replace("!", "")
+                                                  .replace(">", ""))
+            message.author = message.guild.get_member(user) or message.author
+        except TypeError:
+            user = message.author.id
 
         db = connect("levels.sqlite")
         cursor = db.cursor()
@@ -54,7 +61,7 @@ async def __main__(client: Client, _event: int, message: Message):
         xp = data[2]
         lvl = data[1]
 
-        if message.content.startswith(DATA.CONSTANTS.Prefix):
+        if message.content.startswith(Prefix):
             user_level = xp ** formula
             user_progress = int(str(user_level).split(".")[1][:2])
             len_filled = int(len_bar*user_progress/100)
