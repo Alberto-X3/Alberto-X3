@@ -87,9 +87,9 @@ async def __main__(client: Client, _event: int, message: Message):
                              icon_url=message.author.avatar_url)
 
             embed.add_field(inline=False,
-                            name="Your LVL:", value=str(lvl))
+                            name="__Your LVL:__", value=str(lvl))
             embed.add_field(inline=False,
-                            name="Your XP:", value=f"{xp}\n{bar}")
+                            name="__Your XP:__", value=f"{xp}\n{bar}")
             embed.add_field(**ranking)
 
             await message.channel.send(embed=embed)
