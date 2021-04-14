@@ -39,11 +39,16 @@ async def accept(client: discord.Client, reaction: discord.RawReactionActionEven
                     await logger.rules(user=reaction.member)
             channel: discord.TextChannel = client.get_channel(id=reaction.channel_id)
             message: discord.Message = await channel.fetch_message(reaction.message_id)
+
             if reaction.emoji.name == "📯":
                 await reaction.member.add_roles(news)
 
+            if reaction.emoji.name == "❌":
+                await reaction.member.remove_roles(news)
+
             await message.add_reaction("✅")
             await message.add_reaction("📯")
+            await message.add_reaction("❌")
             await message.remove_reaction(emoji=reaction.emoji, member=reaction.member)
 
 
@@ -53,7 +58,7 @@ async def accepted(client: discord.Client):
 
     guild:   discord.guild = client.get_guild(id=632526390113337346)
     role:    discord.Role = discord.utils.get(guild.roles, id=Utils.DATA.IDs.Roles.Rules)
-    news = discord.utils.get(guild.roles, id=831831226146750484)
+    news:    discord.Role = discord.utils.get(guild.roles, id=831831226146750484)
     channel: discord.TextChannel = await client.fetch_channel(Utils.DATA.IDs.Channels.Rules)
     message: discord.Message = await channel.fetch_message(Utils.DATA.IDs.Messages.Rules)
 
@@ -69,5 +74,8 @@ async def accepted(client: discord.Client):
 
             if role not in member.roles and reaction.emoji.name == "📯":
                 await member.add_roles(news)
+
+            if role not in member.roles and reaction.emoji.name == "❌":
+                await member.remove_roles(news)
 
             await message.remove_reaction(emoji=reaction.emoji, member=member)
