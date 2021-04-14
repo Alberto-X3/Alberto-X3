@@ -1,4 +1,4 @@
-from discord import Embed, Client, Message, Role
+from discord import Embed, Client, Message, Role, NotFound
 from Utils import Help, EVENT, send_exception, DATA, Prefix
 
 from sqlite3 import connect
@@ -42,8 +42,8 @@ async def __main__(client: Client, _event: int, message: Message):
                                                   .replace("@", "")
                                                   .replace("!", "")
                                                   .replace(">", ""))
-            message.author = message.guild.get_member(user) or message.author
-        except TypeError:
+            message.author = await client.fetch_user(user)
+        except (ValueError, NotFound):
             user = message.author.id
 
         db = connect("levels.sqlite")
