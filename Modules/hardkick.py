@@ -2,9 +2,9 @@ import discord
 import Utils
 
 
-HELP = Utils.Help(f"bans and unbans a user to delete all messages from the user", f"_{Utils.Prefix}softban iD (reason)_\requires Admin.softban")
+HELP = Utils.Help(f"bans and unbans a user to delete all messages from the user", f"_{Utils.Prefix}hardkick iD (reason)_\requires Admin.softban")
 EVENTS = [Utils.EVENT.on_message]
-ALIASES = ["sb"]
+ALIASES = ["hk"]
 
 
 async def __main__(client: discord.Client, _event: int, message: discord.Message):
@@ -26,7 +26,7 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
                     handler:        discord.User = message.author
 
                     try:
-                        await user.send(f"You where softbanned from the {guild} Server.\n**Please be friendly, otherwise we can make it to a permanent one!!!**\n_{reason}_")
+                        await user.send(f"You where hardkicked from the {guild} Server.\n**Please be friendly, otherwise we can make it to a permanent one!!!**\n_{reason}_")
                         await guild.ban(user=user, reason="SOFTBAN | "+reason)
                         await guild.unban(user=user, reason="SOFTBAN | "+reason)
                         await logger.softban(user=handler, target=user, reason=reason)
