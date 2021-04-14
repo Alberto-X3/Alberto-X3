@@ -124,7 +124,7 @@ async def __main__(client: Client, _event: int, message: Message):
 
             if str(lvl) in lvl_rewards:
                 reward: Role = message.guild.get_role(lvl_rewards[str(lvl)])
-                await author.add_roles(reward, "Leveling reward")
+                await author.add_roles(reward, reason="Leveling reward")
 
     except Exception as e:
         await send_exception(client=client, exception=e, source_name=__name__)
