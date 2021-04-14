@@ -42,7 +42,7 @@ async def __main__(client: Client, _event: int, message: Message):
                                                   .replace("!", "")
                                                   .replace(">", ""))
             message.author = await client.fetch_user(user)
-        except (ValueError, NotFound):
+        except (ValueError, NotFound, IndexError):
             user = message.author.id
 
         db = connect("levels.sqlite")
