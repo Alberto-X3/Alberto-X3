@@ -57,6 +57,15 @@ async def __main__(client: Client, _event: int, message: Message):
 
         data: Tuple[int, int, int] = fetched or (user, 0, 0)
 
+        cursor.execute("SELECT * from lvl ORDER BY xp DESC LIMIT 10")
+        rank = cursor.fetchall()
+        print(rank)
+        ranking = {"inline": False,
+                   "name": f"__Ranking #{len(rank)}:__",
+                   "value": "\n".join(f"LVL **{l}**; "
+                                      f"XP **{x}**; "
+                                      f"<@{u}>" for u, l, x in rank)}
+
         xp = data[2]
         lvl = data[1]
 
@@ -81,6 +90,7 @@ async def __main__(client: Client, _event: int, message: Message):
                             name="Your LVL:", value=str(lvl))
             embed.add_field(inline=False,
                             name="Your XP:", value=f"{xp}\n{bar}")
+            embed.add_field(**ranking)
 
             await message.channel.send(embed=embed)
             return
