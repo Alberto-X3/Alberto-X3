@@ -10,7 +10,7 @@ import Utils
 import levels_config_sqlite
 del levels_config_sqlite
 
-exit()
+
 intents = discord.Intents.all()
 client = discord.Client(intents=intents)
 TOKEN = Utils.DATA.CONSTANTS.Token
