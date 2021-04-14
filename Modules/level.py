@@ -11,15 +11,14 @@ HELP = Help("shows you your XP", f"{Prefix}level (iD/ping)", order_1793=True)
 EVENTS = [EVENT.on_message]
 ALIASES = ["lvl", "rank"]
 
-possible_xps = [3, 3,
-                4, 4, 4, 4,
-                5, 5, 5,
-                6, 6,
-                7]
+possible_xps = [2, 2,
+                3, 3, 3, 3,
+                4, 4, 4,
+                5, 5]
 free = "<:XP0:831578582026813480>"
 full = "<:XP1:831578621092691978>"
 len_bar = 20
-formula = 1/4.5
+formula = 1/3
 latency = timedelta(minutes=1)
 
 lvl_rewards = {
