@@ -51,10 +51,10 @@ async def accept(client: discord.Client, reaction: discord.RawReactionActionEven
             if reaction.emoji.name == "":
                 await reaction.member.kick(reason="No rules...")
 
-            await message.add_reaction("")
             await message.add_reaction("✅")
             await message.add_reaction("📯")
             await message.add_reaction("❌")
+            await message.add_reaction("🚪")
 
 
 async def accepted(client: discord.Client):
