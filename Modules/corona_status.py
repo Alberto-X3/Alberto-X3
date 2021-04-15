@@ -285,7 +285,7 @@ async def __main__(client: discord.Client, _event: int, reaction: discord.RawRea
                         break
                 await msg.remove_reaction(reaction.emoji, reaction.member)
 
-            await update(key, message)
+            await update(key, message, True)
 
         elif _event == Utils.EVENT.on_ready:
             while True:
@@ -306,9 +306,10 @@ async def __main__(client: discord.Client, _event: int, reaction: discord.RawRea
         await Utils.send_exception(client=client, exception=e, source_name=__name__)
 
 
-async def update(key: str, message: discord.Message):
+async def update(key: str, message: discord.Message, new=False):
 
-    msg = f"""
+    if new:
+        msg = f"""
 __**<a:loading:832383867700772866> {key}**__
 ```md
 COVID-19 Cases
@@ -330,7 +331,7 @@ loading...
 > loading...```
 @here is the source: <{url}> :)
 """
-    await message.edit(content=msg)
+        await message.edit(content=msg)
 
     async with ClientSession() as session:
         resp = session.get(url)
