@@ -308,6 +308,30 @@ async def __main__(client: discord.Client, _event: int, reaction: discord.RawRea
 
 async def update(key: str, message: discord.Message):
 
+    msg = f"""
+__**<:loading:747680523459231834> {key}**__
+```md
+COVID-19 Cases
+------------------------
+loading...
+
+Deaths
+------------------------
+loading...
+
+Recovered
+------------------------
+loading...
+
+Active
+------------------------
+loading...
+
+> UTC {datetime.utcnow().date()} {datetime.utcnow().hour}:{"0" + str(datetime.utcnow().minute) if datetime.utcnow().minute < 10 else datetime.utcnow().minute}```
+@here is the source: <{url}> :)
+"""
+    await message.edit(content=msg)
+
     async with ClientSession() as session:
         resp = session.get(url)
 
@@ -343,7 +367,6 @@ Active
 
 > UTC {datetime.utcnow().date()} {datetime.utcnow().hour}:{"0" + str(datetime.utcnow().minute) if datetime.utcnow().minute < 10 else datetime.utcnow().minute}```
 @here is the source: <{url}> :)
-[updating the country can take some time]
 """
 
     await message.edit(content=msg)
