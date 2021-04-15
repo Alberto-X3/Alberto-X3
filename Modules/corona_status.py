@@ -309,7 +309,7 @@ async def __main__(client: discord.Client, _event: int, reaction: discord.RawRea
 async def update(key: str, message: discord.Message):
 
     msg = f"""
-__**<:loading:747680523459231834> {key}**__
+__**<a:loading:747680523459231834> {key}**__
 ```md
 COVID-19 Cases
 ------------------------
