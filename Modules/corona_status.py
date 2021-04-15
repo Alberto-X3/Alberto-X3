@@ -3,7 +3,7 @@ import Utils
 
 from datetime import datetime, timedelta
 from asyncio import sleep
-import requests
+from aiohttp import ClientSession, ClientResponse
 
 EVENTS = [Utils.EVENT.on_raw_reaction_add, Utils.EVENT.on_ready]
 
@@ -308,10 +308,14 @@ async def __main__(client: discord.Client, _event: int, reaction: discord.RawRea
 
 async def update(key: str, message: discord.Message):
 
-    data: requests.Response = requests.get(url)
+    async with ClientSession() as session:
+        resp = session.get(url)
 
-    pos = data.content.find(supported[key].tag)
-    data: Utils.List[bytes] = data.content[pos:].split(sep)
+    data: ClientResponse = await resp
+    content = await data.read()
+
+    pos = content.find(supported[key].tag)
+    data: Utils.List[bytes] = content[pos:].split(sep)
 
     cases:     bytes = data[1].split(b">")[-1]
     deaths:    bytes = data[3].split(b">")[-1]

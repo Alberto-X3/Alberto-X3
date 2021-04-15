@@ -4,7 +4,7 @@ import Utils
 from typing import List
 from asyncio import sleep
 from datetime import datetime, timedelta
-import requests
+from aiohttp import ClientSession
 
 
 EVENTS = [Utils.EVENT.on_ready]
@@ -41,51 +41,53 @@ async def __main__(client: discord.Client, _event: int):
         old_list_deaths = []
         old_list_recovered = []
         old_list_active = []
-        new_cases = new_deaths = new_recovered = new_active = 0
 
-        while True:
+        async with ClientSession() as session:
+            while True:
 
-            data: requests.Response = requests.get(url)
+                resp = session.get(url)
+                data = await resp
+                content = await data.read()
 
-            pos_cases = data.content.find(tag_cases)
-            pos_deaths = data.content.find(tag_deaths)
-            pos_recovered = data.content.find(tag_recovered)
+                pos_cases = content.find(tag_cases)
+                pos_deaths = content.find(tag_deaths)
+                pos_recovered = content.find(tag_recovered)
 
-            cases = data.content[pos_cases+dis_cases:pos_cases+dis_cases+data.content[pos_cases+dis_cases:].find(tag_end)]
-            deaths = data.content[pos_deaths+dis_deaths:pos_deaths+dis_deaths+data.content[pos_deaths+dis_deaths:].find(tag_end)]
-            if deaths.startswith(b">"):
-                deaths = data.content[pos_deaths+dis_deaths+1:pos_deaths+dis_deaths+1+data.content[pos_deaths+dis_deaths+1:].find(tag_end)]
-            recovered = data.content[pos_recovered+dis_recovered:pos_recovered+dis_recovered+data.content[pos_recovered+dis_recovered:].find(tag_end)]
+                cases = content[pos_cases+dis_cases:pos_cases+dis_cases+content[pos_cases+dis_cases:].find(tag_end)]
+                deaths = content[pos_deaths+dis_deaths:pos_deaths+dis_deaths+content[pos_deaths+dis_deaths:].find(tag_end)]
+                if deaths.startswith(b">"):
+                    deaths = content[pos_deaths+dis_deaths+1:pos_deaths+dis_deaths+1+content[pos_deaths+dis_deaths+1:].find(tag_end)]
+                recovered = content[pos_recovered+dis_recovered:pos_recovered+dis_recovered+content[pos_recovered+dis_recovered:].find(tag_end)]
 
-            cases = cases.replace(b" ", b"")
-            deaths = deaths.replace(b" ", b"")
-            recovered = recovered.replace(b" ", b"")
+                cases = cases.replace(b" ", b"")
+                deaths = deaths.replace(b" ", b"")
+                recovered = recovered.replace(b" ", b"")
 
-            int_cases = int(cases.replace(b",", b""))
-            int_deaths = int(deaths.replace(b",", b""))
-            int_recovered = int(recovered.replace(b",", b""))
+                int_cases = int(cases.replace(b",", b""))
+                int_deaths = int(deaths.replace(b",", b""))
+                int_recovered = int(recovered.replace(b",", b""))
 
-            int_active = int_cases - int_deaths - int_recovered
-            active = ("".join(str(int_active)[::-1][i]+"," if i % 3 == 2 else str(int_active)[::-1][i] for i in range(len(str(int_active)))))[::-1]
-            if active.startswith(","):
-                active = active[1:]
+                int_active = int_cases - int_deaths - int_recovered
+                active = ("".join(str(int_active)[::-1][i]+"," if i % 3 == 2 else str(int_active)[::-1][i] for i in range(len(str(int_active)))))[::-1]
+                if active.startswith(","):
+                    active = active[1:]
 
-            history = len(old_list_cases)
+                history = len(old_list_cases)
 
-            old_list_cases = ut(old_list_cases, int_cases)
-            old_list_deaths = ut(old_list_deaths, int_deaths)
-            old_list_recovered = ut(old_list_recovered, int_recovered)
-            old_list_active = ut(old_list_active, int_active)
+                old_list_cases = ut(old_list_cases, int_cases)
+                old_list_deaths = ut(old_list_deaths, int_deaths)
+                old_list_recovered = ut(old_list_recovered, int_recovered)
+                old_list_active = ut(old_list_active, int_active)
 
-            new_cases = dif(old_list_cases)
-            new_deaths = dif(old_list_deaths)
-            new_recovered = dif(old_list_recovered)
-            new_active = dif(old_list_active)
+                new_cases = dif(old_list_cases)
+                new_deaths = dif(old_list_deaths)
+                new_recovered = dif(old_list_recovered)
+                new_active = dif(old_list_active)
 
-            if first:
-                first = False
+                if first:
+                    first = False
 
-            msg = f"""
+                msg = f"""
 __**🌐 World Wide**__
 ```md
 COVID-19 Cases
@@ -113,9 +115,9 @@ Active
 [`+`/`-` are the differences from the past {history} minutes]
 """
 
-            await message.edit(content=msg)
+                await message.edit(content=msg)
 
-            await sleep((timedelta(minutes=1)-timedelta(seconds=datetime.utcnow().second, microseconds=datetime.utcnow().microsecond)).total_seconds())
+                await sleep((timedelta(minutes=1)-timedelta(seconds=datetime.utcnow().second, microseconds=datetime.utcnow().microsecond)).total_seconds())
 
     except Exception as e:
         await Utils.send_exception(client=client, exception=e, source_name=__name__)
