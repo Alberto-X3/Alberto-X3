@@ -48,7 +48,7 @@ async def accept(client: discord.Client, reaction: discord.RawReactionActionEven
             if reaction.emoji.name == "❌":
                 await reaction.member.remove_roles(news)
 
-            if reaction.emoji.name == "":
+            if reaction.emoji.name == "🚪":
                 await reaction.member.kick(reason="No rules...")
 
             await message.add_reaction("✅")
