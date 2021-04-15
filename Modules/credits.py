@@ -3,7 +3,7 @@ import Utils
 
 HELP = Utils.Help("displays the credits", "here are the credits with the code...")
 EVENTS = [Utils.EVENT.on_message]
-ALIASES = ["c"]
+ALIASES = ["c", "code"]
 
 
 async def __main__(client: discord.Client, _event: int, message: discord.Message):
