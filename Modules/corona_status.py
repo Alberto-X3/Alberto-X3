@@ -311,8 +311,8 @@ async def update(key: str, message: discord.Message):
     async with ClientSession() as session:
         resp = session.get(url)
 
-    data: ClientResponse = await resp
-    content = await data.read()
+        data: ClientResponse = await resp
+        content = await data.read()
 
     pos = content.find(supported[key].tag)
     data: Utils.List[bytes] = content[pos:].split(sep)
