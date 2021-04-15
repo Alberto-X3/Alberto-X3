@@ -327,7 +327,7 @@ Active
 ------------------------
 loading...
 
-> UTC {datetime.utcnow().date()} {datetime.utcnow().hour}:{"0" + str(datetime.utcnow().minute) if datetime.utcnow().minute < 10 else datetime.utcnow().minute}```
+> loading...```
 @here is the source: <{url}> :)
 """
     await message.edit(content=msg)
