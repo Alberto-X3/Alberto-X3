@@ -101,7 +101,8 @@ async def __main__(client: Client, _event: int, message: Message):
 
         try:
             if recent[user]+latency > datetime.utcnow():
-                return
+                if not message.content.startswith("\u200B"):
+                    return
         except KeyError:
             pass
 
