@@ -40,16 +40,21 @@ async def accept(client: discord.Client, reaction: discord.RawReactionActionEven
             channel: discord.TextChannel = client.get_channel(id=reaction.channel_id)
             message: discord.Message = await channel.fetch_message(reaction.message_id)
 
+            await message.remove_reaction(emoji=reaction.emoji, member=reaction.member)
+
             if reaction.emoji.name == "📯":
                 await reaction.member.add_roles(news)
 
             if reaction.emoji.name == "❌":
                 await reaction.member.remove_roles(news)
 
+            if reaction.emoji.name == "":
+                await reaction.member.kick(reason="No rules...")
+
+            await message.add_reaction("")
             await message.add_reaction("✅")
             await message.add_reaction("📯")
             await message.add_reaction("❌")
-            await message.remove_reaction(emoji=reaction.emoji, member=reaction.member)
 
 
 async def accepted(client: discord.Client):
@@ -68,6 +73,8 @@ async def accepted(client: discord.Client):
             if member == client.user:
                 continue
 
+            await message.remove_reaction(emoji=reaction.emoji, member=member)
+
             if role not in member.roles and reaction.emoji.name == "✅":
                 await member.add_roles(role, reason="Rules accepted...")
                 await logger.rules(user=member)
@@ -78,4 +85,5 @@ async def accepted(client: discord.Client):
             if role not in member.roles and reaction.emoji.name == "❌":
                 await member.remove_roles(news)
 
-            await message.remove_reaction(emoji=reaction.emoji, member=member)
+            if role not in member.roles and reaction.emoji.name == "🚪":
+                await member.kick(reason="No rules...")
