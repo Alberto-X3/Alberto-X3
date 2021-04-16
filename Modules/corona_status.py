@@ -254,53 +254,58 @@ async def __main__(client: discord.Client, _event: int, reaction: discord.RawRea
     try:
         channel: discord.TextChannel = client.get_channel(id_channel)
 
-        if _event == Utils.EVENT.on_raw_reaction_add:
-
-            message: discord.Message = await channel.fetch_message(id_message)
-
-            if reaction.member == client.user:
-                return
-
-            '''  # To reset the reactions
-            msgs = [await channel.fetch_message(_id) for _id in msg_ids]
-        
-            for msg in msgs:
-                await msg.clear_reactions()
-        
-            _ = 0
-            for key in list(supported.keys()):
-                await msgs[_//20].add_reaction(discord.PartialEmoji(name=supported[key].reaction))
-                _ += 1
-            '''
-
-            key = ""
-
-            if reaction.channel_id == id_channel:
-                msg = await channel.fetch_message(reaction.message_id)
-                for _id in msg_ids:
-                    if reaction.message_id == _id:
-                        for key in list(supported.keys()):
-                            if reaction.emoji == discord.PartialEmoji(name=supported[key].reaction):
-                                break
-                        break
-                await msg.remove_reaction(reaction.emoji, reaction.member)
-
-            await update(key, message, True)
-
-        elif _event == Utils.EVENT.on_ready:
-            while True:
+        try:
+            if _event == Utils.EVENT.on_raw_reaction_add:
 
                 message: discord.Message = await channel.fetch_message(id_message)
 
-                key = message.content.splitlines()[0].split()[1].replace("*", "")[:-2]
+                if reaction.member == client.user:
+                    return
 
-                await update(key, message)
+                '''  # To reset the reactions
+                msgs = [await channel.fetch_message(_id) for _id in msg_ids]
+            
+                for msg in msgs:
+                    await msg.clear_reactions()
+            
+                _ = 0
+                for key in list(supported.keys()):
+                    await msgs[_//20].add_reaction(discord.PartialEmoji(name=supported[key].reaction))
+                    _ += 1
+                '''
 
-                await sleep((timedelta(minutes=1) - timedelta(seconds=datetime.utcnow().second,
-                                                              microseconds=datetime.utcnow().microsecond)).total_seconds())
+                key = ""
 
-    except KeyError:
-        pass
+                if reaction.channel_id == id_channel:
+                    msg = await channel.fetch_message(reaction.message_id)
+                    for _id in msg_ids:
+                        if reaction.message_id == _id:
+                            for key in list(supported.keys()):
+                                if reaction.emoji == discord.PartialEmoji(name=supported[key].reaction):
+                                    break
+                            break
+                    await msg.remove_reaction(reaction.emoji, reaction.member)
+
+                await update(key, message, True)
+
+            elif _event == Utils.EVENT.on_ready:
+                while True:
+
+                    try:
+                        message: discord.Message = await channel.fetch_message(id_message)
+
+                        key = message.content.splitlines()[0].split()[1].replace("*", "")[:-2]
+
+                        await update(key, message)
+
+                        await sleep((timedelta(minutes=1) - timedelta(seconds=datetime.utcnow().second,
+                                                                      microseconds=datetime.utcnow().microsecond)).total_seconds())
+                    except (KeyError, IndexError, ValueError, TypeError,
+                            AttributeError, RuntimeError):
+                        pass
+        except (KeyError, IndexError, ValueError, TypeError,
+                AttributeError, RuntimeError):
+            pass
 
     except Exception as e:
         await Utils.send_exception(client=client, exception=e, source_name=__name__)

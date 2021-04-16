@@ -24,5 +24,8 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
                     await message.channel.send(f"**__Anti-spam__**\n:x: Please don't spam {message.author.mention}!", delete_after=5)
                 break
 
+    except discord.NotFound:
+        pass
+
     except Exception as e:
         await Utils.send_exception(client=client, exception=e, source_name=__name__)
