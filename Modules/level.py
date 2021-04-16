@@ -73,7 +73,14 @@ async def __main__(client: Client, _event: int, message: Message):
         xp = data[2]
         lvl = data[1]
 
-        if message.content.startswith(Prefix):
+        if message.content.startswith(("!!", "++", "..", "??")):
+            """
+            `!!` -> prefix for <@714477299042615361> (Josef#0189)
+            `++` -> prefix for <@772085213987209226> (Red-Rainbow#0836)
+            `..` -> prefix for <@751157545728606239> (Alberto-X3#9164)
+            `??` -> prefix for <@756196727748296855> (CardGifter2020#2871)
+            """
+
             user_level = xp ** formula
             user_progress = int(str(user_level).split(".")[1][:2])
             len_filled = int(len_bar*user_progress/100)
