@@ -60,12 +60,15 @@ async def __main__(client: Client, _event: int, message: Message):
 
         cursor.execute("SELECT * from lvl ORDER BY xp DESC LIMIT 10")
         rank = cursor.fetchall()
-        print(rank)
+
         ranking = {"inline": False,
                    "name": f"__Ranking #{len(rank)}:__",
                    "value": "\n".join(f"LVL **{l}**; "
                                       f"XP **{x}**; "
                                       f"<@{u}>" for u, l, x in rank)}
+
+        cursor.execute("SELECT null from lvl")
+        len_user = len(cursor.fetchall())
 
         xp = data[2]
         lvl = data[1]
@@ -86,6 +89,7 @@ async def __main__(client: Client, _event: int, message: Message):
                           description=f"You are the number __**#{rank}**__!")
             embed.set_author(name=message.author.name,
                              icon_url=message.author.avatar_url)
+            embed.set_footer(text=f"total {len_user} user in ranking")
 
             embed.add_field(inline=False,
                             name="__Your LVL:__", value=str(lvl))
