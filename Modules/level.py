@@ -80,6 +80,8 @@ async def __main__(client: Client, _event: int, message: Message):
             `..` -> prefix for <@751157545728606239> (Alberto-X3#9164)
             `??` -> prefix for <@756196727748296855> (CardGifter2020#2871)
             """
+            if not message.content.startswith(".."):
+                return
 
             user_level = xp ** formula
             user_progress = int(str(user_level).split(".")[1][:2])
