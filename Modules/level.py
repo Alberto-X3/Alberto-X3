@@ -110,6 +110,9 @@ async def __main__(client: Client, _event: int, message: Message):
             return
 
         # below is only without prefix and just leveling
+        if message.channel.slowmode_delay:
+            return
+
         author: Union[Member, User] = message.author
 
         try:
