@@ -2,7 +2,7 @@ import discord
 import Utils
 
 
-HELP = Utils.Help(f"kicks a user by iD", f"_{Utils.Prefix}kick iD (reason)_\nrequires Admin.Bot.kick")
+HELP = Utils.Help(f"kicks a user by iD", f"_{Utils.Prefix}kick iD (reason)_\nrequires Admin.kick")
 EVENTS = [Utils.EVENT.on_message]
 
 
