@@ -144,7 +144,7 @@ async def __main__(client: Client, _event: int, *args: Union[Message, Member, Vo
             if args[1].channel is None:
                 embed.description = f"joined {args[2].channel}"
             if args[2].channel is None:
-                embed.description = f"leafed {args[1].channel}"
+                embed.description = f"leaved {args[1].channel}"
             if args[1].channel is not None and args[2].channel is not None and args[1].channel != args[2].channel:
                 embed.add_field(name="moved", value=f"{args[1].channel} -> {args[2].channel}")
             if args[1].deaf != args[2].deaf:
