@@ -33,8 +33,7 @@ recent: Dict[int, datetime] = {}
 
 async def __main__(client: Client, _event: int, message: Message):
     try:
-        if any((message.author.bot,
-                message.guild is None)):
+        if message.guild is None:
             return
 
         try:
