@@ -6,7 +6,6 @@ from random import choice
 from typing import Tuple, Dict, Union
 from datetime import datetime, timedelta
 
-
 HELP = Help("shows you your XP", f"{Prefix}level (iD/ping)", order_1793=True)
 EVENTS = [EVENT.on_message]
 ALIASES = ["lvl", "rank"]
@@ -18,7 +17,7 @@ possible_xps = [2, 2,
 free = "<:XP0:831578582026813480>"
 full = "<:XP1:831578621092691978>"
 len_bar = 20
-formula = 1/3
+formula = 1 / 3
 latency = timedelta(minutes=1)
 
 lvl_rewards = {
@@ -26,9 +25,56 @@ lvl_rewards = {
     "20": 831628364803997757,
     "15": 831628201406627871,
     "10": 831628459222237227,
-    "5":  831915216475914273
+    "5": 831915216475914273
 }
 recent: Dict[int, datetime] = {}
+
+needed = {
+    # 1: 8,
+    # 2: 27,
+    # 3: 65,
+    # 4: 125,
+    5: 217,
+    # 6: 344,
+    # 7: 513,
+    # 8: 730,
+    # 9: 1001,
+    10: 1332,
+    # 11: 1729,
+    # 12: 2198,
+    # 13: 2745,
+    # 14: 3376,
+    15: 4097,
+    # 16: 4914,
+    # 17: 5833,
+    # 18: 6860,
+    # 19: 8001,
+    20: 9262,
+    # 21: 10649,
+    # 22: 12168,
+    # 23: 13825,
+    # 24: 15626,
+    25: 17577,
+    # 26: 19684,
+    # 27: 21953,
+    # 28: 24390,
+    # 29: 27001,
+    30: 29792,
+    # 31: 32769,
+    # 32: 35938,
+    # 33: 39305,
+    # 34: 42876,
+    35: 46657,
+    # 36: 50654,
+    # 37: 54873,
+    # 38: 59320,
+    # 39: 64001,
+    40: 68922
+}
+needed_info = """```
+Level:  XP:
+{}
+```""".format("\n".join(f"{str(k):8}{needed[k]}" for k in list(needed)))
 
 
 async def __main__(client: Client, _event: int, message: Message):
@@ -38,9 +84,9 @@ async def __main__(client: Client, _event: int, message: Message):
 
         try:
             user = int(message.content.split()[-1].replace("<", "")
-                                                  .replace("@", "")
-                                                  .replace("!", "")
-                                                  .replace(">", ""))
+                       .replace("@", "")
+                       .replace("!", "")
+                       .replace(">", ""))
             message.author = await client.fetch_user(user)
         except (ValueError, NotFound, IndexError):
             user = message.author.id
@@ -60,11 +106,13 @@ async def __main__(client: Client, _event: int, message: Message):
         cursor.execute("SELECT * from lvl ORDER BY xp DESC LIMIT 10")
         rank = cursor.fetchall()
 
-        ranking = {"inline": False,
-                   "name": f"__Ranking #{len(rank)}:__",
-                   "value": "\n".join(f"LVL **{l}**; "
-                                      f"XP **{x}**; "
-                                      f"<@{u}>" for u, l, x in rank)}
+        ranking = {
+            "inline": False,
+            "name": f"__Ranking #{len(rank)}:__",
+            "value": "\n".join(f"LVL **{l}**; "
+                               f"XP **{x}**; "
+                               f"<@{u}>" for u, l, x in rank)
+        }
 
         cursor.execute("SELECT null from lvl")
         len_user = len(cursor.fetchall())
@@ -84,7 +132,7 @@ async def __main__(client: Client, _event: int, message: Message):
 
             user_level = xp ** formula
             user_progress = int(str(user_level).split(".")[1][:2])
-            len_filled = int(len_bar*user_progress/100)
+            len_filled = int(len_bar * user_progress / 100)
 
             bar = f"{'#' * len_filled:-<{len_bar}}"
             bar = bar.replace("#", full)
@@ -104,6 +152,7 @@ async def __main__(client: Client, _event: int, message: Message):
             embed.add_field(inline=False,
                             name="__Your XP:__", value=f"{xp}\n{bar}")
             embed.add_field(**ranking)
+            embed.add_field(name="__Info:__", value=needed_info, inline=False)
 
             await message.channel.send(embed=embed)
             return
@@ -115,9 +164,9 @@ async def __main__(client: Client, _event: int, message: Message):
         author: Union[Member, User] = message.author
 
         try:
-            if recent[user]+latency > datetime.utcnow():
+            if recent[user] + latency > datetime.utcnow():
                 if not message.content.startswith("\u200B"):
-                    if recent[user]+latency/2 > datetime.utcnow():
+                    if recent[user] + latency / 2 > datetime.utcnow():
                         return
                 else:
                     return
