@@ -142,7 +142,7 @@ async def __main__(client: Client, _event: int, message: Message):
             rank = len(cursor.fetchall()) + 1
 
             embed = Embed(color=0x275591,
-                          description=f"You are the number __**#{rank}**__!")
+                          description=f"You are the number __**#{rank}**__ {message.author.mention}!")
             embed.set_author(name=message.author.name,
                              icon_url=message.author.avatar_url)
             embed.set_footer(text=f"total {len_user} user in ranking")
