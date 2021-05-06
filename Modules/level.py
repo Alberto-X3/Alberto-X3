@@ -161,7 +161,7 @@ async def __main__(client: Client, _event: int, message: Message):
         if message.channel.slowmode_delay:
             return
 
-        author: Member = message.guild.get_member(message.author)
+        author: Member = message.guild.get_member(message.author.id)
 
         try:
             if recent[user] + latency > datetime.utcnow():
