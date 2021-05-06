@@ -605,31 +605,4 @@ async def on_group_remove(channel: discord.GroupChannel, user: discord.User):
             create_task(Modules.libs[module].__main__(client, Utils.EVENT.on_group_remove, channel, user))
 
 
-@client.event
-async def on_relationship_add(relationship: discord.Relationship):
-
-    for module in Modules.MODULES:
-        if Utils.EVENT.on_relationship_add in Modules.libs[module].EVENTS:
-
-            create_task(Modules.libs[module].__main__(client, Utils.EVENT.on_relationship_add, relationship))
-
-
-@client.event
-async def on_relationship_remove(relationship: discord.Relationship):
-
-    for module in Modules.MODULES:
-        if Utils.EVENT.on_relationship_remove in Modules.libs[module].EVENTS:
-
-            create_task(Modules.libs[module].__main__(client, Utils.EVENT.on_relationship_remove, relationship))
-
-
-@client.event
-async def on_relationship_update(before: discord.Relationship, after: discord.Relationship):
-
-    for module in Modules.MODULES:
-        if Utils.EVENT.on_relationship_update in Modules.libs[module].EVENTS:
-
-            create_task(Modules.libs[module].__main__(client, Utils.EVENT.on_relationship_update, before, after))
-
-
-client.run(TOKEN, intents=discord.Intents.all())
+client.run(TOKEN)

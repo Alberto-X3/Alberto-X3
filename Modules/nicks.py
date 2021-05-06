@@ -1,4 +1,4 @@
-from discord import Client, Member, Role
+from discord import Client, Member
 from Utils import Help, EVENT, send_exception
 
 
@@ -19,8 +19,9 @@ async def __main__(client: Client, _event: int,
     try:
         if _event == EVENT.on_ready:
             for member in client.get_guild(632526390113337346).members:
+                print(member)
                 await repair(member)
-        else:
+        if _event == EVENT.on_member_update:
             await repair(after)
 
     except Exception as e:
@@ -28,8 +29,8 @@ async def __main__(client: Client, _event: int,
 
 
 async def repair(member: Member) -> None:
-    if member.top_role in nicks:
-        prefix = nicks[member.top_role]
+    if member.top_role.id in nicks:
+        prefix = nicks[member.top_role.id]
         if member.nick is None or not member.nick.startswith(prefix+sep):
             nick = prefix+sep+member.display_name
             if len(nick) > 32:

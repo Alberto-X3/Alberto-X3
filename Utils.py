@@ -68,9 +68,6 @@ EVENT = AttrDict({
     "on_invite_delete":                54,  # argument(s) --> client: discord.Client, _event: int, invite: discord.Invite
     "on_group_join":                   55,  # argument(s) --> client: discord.Client, _event: int, channel: discord.GroupChannel, user: discord.User
     "on_group_remove":                 56,  # argument(s) --> client: discord.Client, _event: int, channel: discord.GroupChannel, user: discord.User
-    "on_relationship_add":             57,  # argument(s) --> client: discord.Client, _event: int, relationship: discord.Relationship
-    "on_relationship_remove":          58,  # argument(s) --> client: discord.Client, _event: int, relationship: discord.Relationship
-    "on_relationship_update":          59,  # argument(s) --> client: discord.Client, _event: int, before: discord.Relationship, after: discord.Relationship
 })
 
 

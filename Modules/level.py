@@ -1,5 +1,5 @@
 from discord import Embed, Client, Message, Role, NotFound, Member, User
-from Utils import Help, EVENT, send_exception, Prefix
+from Utils import Help, EVENT, send_exception, Prefix, DATA
 
 from sqlite3 import connect
 from random import choice
@@ -79,7 +79,7 @@ Level:  XP:
 
 async def __main__(client: Client, _event: int, message: Message):
     try:
-        if message.guild is None:
+        if message.guild is None or DATA.debug:
             return
 
         try:
