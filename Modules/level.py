@@ -188,7 +188,7 @@ async def __main__(client: Client, _event: int, message: Message):
         if lvl != old_lvl:
             await client.get_channel(831625194803298314).send(
                 f"Congratulations __**{message.author.mention}**__!\n"
-                f"You are now __*Level {lvl}*__ 🥳🥳🥳\n")
+                f"You are now __*Level {lvl}*__ {lvl*'🥳'}\n")
 
             if str(lvl) in lvl_rewards:
                 reward: Role = message.guild.get_role(lvl_rewards[str(lvl)])
