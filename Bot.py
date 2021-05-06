@@ -632,4 +632,4 @@ async def on_relationship_update(before: discord.Relationship, after: discord.Re
             create_task(Modules.libs[module].__main__(client, Utils.EVENT.on_relationship_update, before, after))
 
 
-client.run(TOKEN)
+client.run(TOKEN, intents=discord.Intents.all())
