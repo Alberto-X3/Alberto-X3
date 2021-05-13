@@ -7,10 +7,26 @@ EVENTS = [EVENT.on_member_update, EVENT.on_ready]
 
 
 sep = " | "
+DEV = "Dev"
+MOD = "Mod"
+SUP = "Sup"
+VIP = "VIP"
+ALB = "Aty"
 nicks = {
-    733966411663278141: "Mod",
-    828370010866843668: "Sup",
-    674637758869930007: "VIP"
+    832244630582067270: DEV,  # @Developer
+    733966411663278141: MOD,  # @Moderaty
+    828370010866843668: SUP,  # @Supporty
+    674637758869930007: VIP,  # @VIP
+
+    831629269414182943: ALB,  # @Level 30
+    831628612171071498: ALB,  # @Level 25
+    831628364803997757: ALB,  # @Level 20
+    831628201406627871: ALB,  # @Level 15
+    831628459222237227: ALB,  # @Level 10
+    831915216475914273: ALB,  # @Level 5
+
+    707911694277673081: ALB,  # @50er
+    638630227966296074: ALB,  # @Albertany
 }
 
 
