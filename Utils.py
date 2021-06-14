@@ -4,6 +4,9 @@ from typing import *
 from NewClass import AttrDict
 from json import load
 
+from traceback import format_exc
+from io import BytesIO
+
 
 '''
 You can see all the events in the following URL:
@@ -122,6 +125,7 @@ class Logger:
         self.channel = channel
         self.messages = AttrDict({
             "join":            "*{}* joined this server! ID: {}; account creation: {}, {} days ago",
+            "left":            "*{}* left this server! ID: {}; account creation: {}, {} days ago; server joined: {}, {} days ago",
             "rules":           "*{}* accepted the rules",
             "kick":            "*{}* kicked *{}* with reason *{}*",
             "ban":             "*{}* banned *{}* with reason *{}*",
@@ -132,10 +136,17 @@ class Logger:
         })
 
     async def join(self,
-                   user: discord.User
+                   member: discord.Member
                    ) -> None:
         await self.channel.send(
-            self.messages.join.format(user.mention, user.id, user.created_at, (self.datetime.now() - user.created_at).days)
+            self.messages.join.format(member.mention, member.id, member.created_at, (self.datetime.now() - member.created_at).days)
+        )
+
+    async def left(self,
+                   member: discord.Member
+                   ) -> None:
+        await self.channel.send(
+            self.messages.left.format(member.mention, member.id, member.created_at, (self.datetime.now() - member.created_at).days, member.joined_at, (self.datetime.now() - member.joined_at).days)
         )
 
     async def rules(self,
@@ -218,22 +229,23 @@ def perms(_id: str) -> AttrDict:
 
 async def send_exception(client: discord.Client, exception: Exception, source_name: str, mention_role: Optional[int] = 820974562770550816, pin: bool = True, timestamp: bool = True):
     if not DATA.debug:
-        from discord.utils import snowflake_time
-
         super_log: discord.TextChannel = client.get_channel(DATA.IDs.Channels.Super_Log)
+
+        file = discord.File(BytesIO(format_exc().encode()))
         embed: discord.Embed = discord.Embed(title=source_name,
                                              description=f"{exception.__class__.__name__}: {exception.__str__()}\n",
                                              color=discord.Color.magenta())
 
-        message: discord.Message = await super_log.send(embed=embed)
+        message: discord.Message = await super_log.send(embed=embed, file=file)
 
         if timestamp:
+            from discord.utils import snowflake_time
             embed.add_field(name="datetime.datetime",
                             value=snowflake_time(message.id).__str__())
             await message.edit(embed=embed)
         if pin:
             await message.pin()
         if mention_role:
-            await super_log.send(f"<@&{mention_role}>", delete_after=0)
+            await super_log.send(f"<@&{mention_role}>")
     else:
         raise exception
