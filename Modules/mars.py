@@ -5,7 +5,7 @@ from asyncio import sleep as asleep
 import Utils
 
 
-HELP = Utils.Help("shows latest pictures from Mars")
+HELP = Utils.Help("shows recent pictures from Mars")
 EVENTS = [Utils.EVENT.on_message]
 ALIASES = ["m"]
 
@@ -58,7 +58,8 @@ async def __main__(client: Client, _event: int, message: Message):
             embed: Embed = Embed(title=f"Mars Sol {image[1]}",
                                  description="Recent images from Mars!")
             embed.set_image(url=image[0])
-            embed.set_footer(text=f"Image from rover {image[2]}.")
+            embed.set_footer(text=f"Image from rover {image[2]} taken with "
+                                  f"the Navigation Camera.")
             await message.edit(embed=embed, content="")
             await asleep(10)
         del images
