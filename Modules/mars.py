@@ -9,11 +9,21 @@ HELP = Utils.Help("shows latest pictures from Mars")
 EVENTS = [Utils.EVENT.on_message]
 ALIASES = ["m"]
 
+
+# only got better reading
+days = seconds = int
+
+
+# CONSTANTS
 LOADING_MSG = "<a:loading:832383867700772866> loading `api.nasa.gov`..."
 API_KEY = Utils.DATA.CONSTANTS.KEY_01
 BASE_URL = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos" \
            "?earth_date={date}&api_key=" + API_KEY
-MAX_HISTORY: int = 4
+MAX_HISTORY: days = 4
+MAX_IMAGES: int = 90
+TIME_TO_SLEEP: seconds = 10
+
+del days, seconds
 
 
 def get_date(history) -> str:
@@ -34,17 +44,21 @@ async def __main__(client: Client, _event: int, message: Message):
                 data += (await resp.json())["photos"]
 
         # I convert the images and sols to a set to prevent multiplying
-        images_set = {(i["img_src"], i["sol"])
+        images_set = {(i["img_src"], i["sol"], i["rover"]["name"])
                       for i in data if "/ncam/" in i["img_src"]}
         del data
 
         images = [*sorted(images_set, key=lambda t: t[1], reverse=True)]
         del images_set
 
+        if len(images) > MAX_IMAGES:
+            images = images[:MAX_IMAGES]
+
         for image in images:
             embed: Embed = Embed(title=f"Mars Sol {image[1]}",
                                  description="Recent images from Mars!")
             embed.set_image(url=image[0])
+            embed.set_footer(text=f"Image from rover {image[2]}.")
             await message.edit(embed=embed, content="")
             await asleep(10)
         del images
