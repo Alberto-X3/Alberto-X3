@@ -35,7 +35,6 @@ async def __main__(client: Client, _event: int,
     try:
         if _event == EVENT.on_ready:
             for member in client.get_guild(632526390113337346).members:
-                print(member)
                 await repair(member)
         if _event == EVENT.on_member_update:
             await repair(after)
