@@ -1,7 +1,6 @@
 from aiohttp import ClientSession, ClientResponse
 from discord import Client, Message, Embed
 from datetime import datetime, timedelta
-from typing import Dict, List, Union
 from asyncio import sleep as asleep
 import Utils
 
@@ -14,35 +13,38 @@ LOADING_MSG = "<a:loading:832383867700772866> loading `api.nasa.gov`..."
 API_KEY = Utils.DATA.CONSTANTS.KEY_01
 BASE_URL = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos" \
            "?earth_date={date}&api_key=" + API_KEY
-_DATA_T = \
-    Dict[
-        str, List[
-            Dict[
-                str, Union[str, int, Dict[
-                    str, Union[str, int]]
-                ]
-            ]
-        ]
-    ]
+MAX_HISTORY: int = 4
+
+
+def get_date(history) -> str:
+    """returns the date for the images"""
+    return (datetime.utcnow()-timedelta(days=history)).strftime("%Y-%m-%d")
 
 
 async def __main__(client: Client, _event: int, message: Message):
     try:
-        url = BASE_URL.format(date=(datetime.utcnow()-timedelta(days=1)).strftime("%Y-%m-%d"))
-
         message: Message = await message.channel.send(LOADING_MSG)
 
+        data = []
         async with ClientSession() as session:
-            resp: ClientResponse = await (session.get(url))
-            data: _DATA_T = await resp.json()
+            for history in range(1, MAX_HISTORY+1):
+                url = BASE_URL.format(date=get_date(history))
 
-        images = [*{(i["img_src"], i["sol"]) for i in data["photos"]
-                    if "/ncam/" in i["img_src"]}]
+                resp: ClientResponse = await (session.get(url))
+                data += (await resp.json())["photos"]
 
-        for index in range(len(images)):
-            embed: Embed = Embed(title=f"Mars Sol {images[index][1]}",
+        # I convert the images and sols to a set to prevent multiplying
+        images_set = {(i["img_src"], i["sol"])
+                      for i in data if "/ncam/" in i["img_src"]}
+        del data
+
+        images = [*sorted(images_set, key=lambda t: t[1], reverse=True)]
+        del images_set
+
+        for image in images:
+            embed: Embed = Embed(title=f"Mars Sol {image[1]}",
                                  description="Recent images from Mars!")
-            embed.set_image(url=images[index][0])
+            embed.set_image(url=image[0])
             await message.edit(embed=embed, content="")
             await asleep(10)
         del images
