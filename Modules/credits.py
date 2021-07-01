@@ -9,8 +9,8 @@ ALIASES = ["c", "code"]
 async def __main__(client: discord.Client, _event: int, message: discord.Message):
     try:
         await message.channel.send(embed=discord.Embed(description=f"""
-    ~~Modular Code: [here](https://github.com/AlbertUnruh/ModularDiscordPyBot)~~
-    My Code: [here](https://github.com/AlbertUnruh/Alberto-X3)
+    ~~Modular Code: [here](https://github.com/Alberto-X3/ModularDiscordPyBot)~~
+    My Code: [here](https://github.com/Alberto-X3/Alberto-X3)
 
     source code by <@546320163276849162>
     profile pictures by <@665288034274639873>
