@@ -21,12 +21,15 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
 
                     logger = Utils.Logger(channel=await client.fetch_channel(Utils.DATA.IDs.Channels.Logs))
                     channel: discord.TextChannel = message.channel
-                    guild:         discord.Guild = message.guild
+                    guild:         discord.Guild = message.guild  # type: ignore
                     user:           discord.User = await client.fetch_user(int(message.content.split()[1]))
                     handler:        discord.User = message.author
 
                     try:
                         await user.send(f"You where banned from the {guild} Server.\n_{reason}_")
+                    except discord.Forbidden:
+                        pass
+                    try:
                         await guild.ban(user=user, reason=reason)
                         await logger.ban(user=handler, target=user, reason=reason)
                         await message.delete()
