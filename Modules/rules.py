@@ -29,7 +29,8 @@ async def accept(client: discord.Client, reaction: discord.RawReactionActionEven
     role_id = Utils.DATA.IDs.Roles.Rules
     guild: discord.Guild = client.get_guild(reaction.guild_id)
     role = discord.utils.get(guild.roles, id=role_id)
-    news = discord.utils.get(guild.roles, id=831831226146750484)
+    news1: discord.Role = discord.utils.get(guild.roles, id=831831226146750484)
+    news2: discord.Role = discord.utils.get(guild.roles, id=861649282910519328)
 
     if reaction.channel_id == channel_id:
         if reaction.message_id == message_id:
@@ -43,10 +44,13 @@ async def accept(client: discord.Client, reaction: discord.RawReactionActionEven
             await message.remove_reaction(emoji=reaction.emoji, member=reaction.member)
 
             if reaction.emoji.name == "📯":
-                await reaction.member.add_roles(news)
+                await reaction.member.add_roles(news1)
+
+            if reaction.emoji.name == "📰":
+                await reaction.member.add_roles(news1)
 
             if reaction.emoji.name == "❌":
-                await reaction.member.remove_roles(news)
+                await reaction.member.remove_roles(news1, news2)
 
             if reaction.emoji.name == "🚪":
                 await reaction.member.kick(reason="No rules...")
