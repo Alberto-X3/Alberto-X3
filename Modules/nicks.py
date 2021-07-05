@@ -11,11 +11,13 @@ DEV = "Dev"
 MOD = "Mod"
 SUP = "Sup"
 VIP = "VIP"
+SLY = "Sly"
 ALB = "Aty"
 nicks = {
     832244630582067270: DEV,  # @Developer
     733966411663278141: MOD,  # @Moderaty
     828370010866843668: SUP,  # @Supporty
+    861648252445392896: SLY,  # @News Sammly
     674637758869930007: VIP,  # @VIP
 
     831629269414182943: ALB,  # @Level 30
