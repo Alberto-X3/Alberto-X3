@@ -145,7 +145,7 @@ async def on_typing(channel: discord.abc.Messageable, user: Union[discord.User, 
             create_task(Modules.libs[module].__main__(client, Utils.EVENT.on_typing, channel, user, when))
 
 
-# @client.event
+@client.event
 async def on_message(message: discord.Message):
 
     if message.content.startswith(Prefix):
