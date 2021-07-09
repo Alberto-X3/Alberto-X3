@@ -47,7 +47,7 @@ async def accept(client: discord.Client, reaction: discord.RawReactionActionEven
                 await reaction.member.add_roles(news1)
 
             if reaction.emoji.name == "📰":
-                await reaction.member.add_roles(news1)
+                await reaction.member.add_roles(news2)
 
             if reaction.emoji.name == "❌":
                 await reaction.member.remove_roles(news1, news2)
