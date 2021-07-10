@@ -28,7 +28,7 @@ async def __main__(client: Client, _event: int, message: Message):
         await message.delete()
         await message.channel.send(
             f"**__Anti-spam__**\n"
-            f":x: Your message has no content {message.author.mention}!",
+            f":x: Don't send empty messages {message.author.mention}!",
             delete_after=5)
 
     except Exception as e:
