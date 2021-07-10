@@ -21,7 +21,10 @@ async def __main__(client: discord.Client, _event: int, message: discord.Message
                     if message.created_at - message_.created_at > timedelta(minutes=30):
                         break
                     await message.delete()
-                    await message.channel.send(f"**__Anti-spam__**\n:x: Please don't spam {message.author.mention}!", delete_after=5)
+                    await message.channel.send(
+                        f"**__Anti-spam__**\n"
+                        f":x: Please don't spam {message.author.mention}!",
+                        delete_after=5)
                 break
 
     except discord.NotFound:

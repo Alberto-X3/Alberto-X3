@@ -19,13 +19,17 @@ BLACKLISTED = (
 
 async def __main__(client: Client, _event: int, message: Message):
     try:
-        if message.author.id == client.user.id:
+        if message.author.id == client.user.id or not message.content:
             return
 
         for c in message.content or "":
             if c not in BLACKLISTED:
                 return
         await message.delete()
+        await message.channel.send(
+            f"**__Anti-spam__**\n"
+            f":x: Your message has no content {message.author.mention}!",
+            delete_after=5)
 
     except Exception as e:
         await send_exception(client=client, exception=e, source_name=__name__)
